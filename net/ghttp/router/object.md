@@ -125,6 +125,7 @@ func (u *User) ShowList(r *ghttp.Request) {
 }
 
 func main() {
+	u := new(User)
 	s1 := g.Server("DEFAULT ")
 	s2 := g.Server("FULLNAME")
 	s3 := g.Server("ALLLOWER")
@@ -135,10 +136,10 @@ func main() {
 	s3.SetNameToUriType(ghttp.URI_TYPE_ALLLOWER)
 	s4.SetNameToUriType(ghttp.URI_TYPE_CAMEL)
 
-	s1.BindObject("/{.struct}/{.method}", new(User))
-	s2.BindObject("/{.struct}/{.method}", new(User))
-	s3.BindObject("/{.struct}/{.method}", new(User))
-	s4.BindObject("/{.struct}/{.method}", new(User))
+	s1.BindObject("/{.struct}/{.method}", u)
+	s2.BindObject("/{.struct}/{.method}", u)
+	s3.BindObject("/{.struct}/{.method}", u)
+	s4.BindObject("/{.struct}/{.method}", u)
 
 	s1.SetPort(8100)
 	s2.SetPort(8200)
