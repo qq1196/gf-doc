@@ -16,6 +16,18 @@
 并提供了Web服务开发的系列核心组件，如：Router、Cookie、Session、Middleware、服务注册、配置管理、模板引擎等等，
 支持热重启、热更新、多域名、多端口、多服务、HTTPS、Rewrite等特性。
 
+# 特点
+
+* 模块化、松耦合设计；
+* 模块丰富，开箱即用；
+* 简便易用、易于维护；
+* 详尽的开发文档及示例；
+* 完善的本地中文化支持；
+* 更适合企业及团队使用；
+
+开源项目地址：
+- **主库**: https://github.com/gogf/gf 
+- **码云**: https://gitee.com/johng/gf 
 
 # 安装
 ```html
@@ -37,18 +49,7 @@ golang版本 >= 1.11
 <img src="https://gf.cdn.johng.cn/images/arch.png?v=1"/>
 </div>
 
-# 特点
 
-* 模块化、松耦合设计；
-* 模块丰富，开箱即用；
-* 简便及可维护性为宗旨；
-* 详尽的开发文档及示例；
-* 完善的本地中文化支持；
-* 更适合企业及团队使用；
-
-开源项目地址：
-- **主库**: https://github.com/gogf/gf 
-- **码云**: https://gitee.com/johng/gf 
 
 # 帮助
 - QQ交流群：[116707870](//shang.qq.com/wpa/qunwpa?idkey=195f91eceeb5d7fa76009b7cd5a4641f70bf4897b7f5a520635eb26ff17adfe7)
