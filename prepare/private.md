@@ -16,12 +16,13 @@
 1. 一些自研开发的第三方包，特别是一些业务依赖包，是不允许公开下载的（私有库），并且版本库也可能不支持`HTTPS`协议，因此无法使用`go get`或者`go.mod`进行下载和管理；
 1. 等等；
 
-如果你遇到了上面所提到的问题，我们建议的解决方案：通过`GOPRIVATE`+`GitToken`+`GitReplace`的方式来下载私有包。
+如果你遇到了上面所提到的问题，我们建议的解决方案：通过`GOPRIVATE`的方式设置私有包有效域名。
 
 例如以下命令行方式：
 ```shell
-git config --global url."https://oauth2:xxxxxxxx@git.xxx.com".insteadOf "https://git.xxx.com"
-export GOPROXY=https://goproxy.io
+export GOPROXY=https://goproxy.cn
 export GOPRIVATE=git.xxx.com
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main main.go
 ```
+
+> 该特性需要`Go v1.13`以上版本支持。

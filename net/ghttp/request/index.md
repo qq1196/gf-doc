@@ -6,6 +6,8 @@
 相关方法：
 https://godoc.org/github.com/gogf/gf/net/ghttp#Request
 
+
+
 # 简要说明
 
 可以看到`Request`对象的参数获取方法非常丰富，可以分为以下几类：
@@ -17,6 +19,17 @@ https://godoc.org/github.com/gogf/gf/net/ghttp#Request
 4. `GetBody/GetBodyString`: 获取客户端提交的原始数据，该数据是客户端写入到`body`中的原始数据，与`HTTP Method`无关，例如客户端提交`JSON/XML`数据格式时可以通过该方法获取原始的提交数据。
 5. `GetJson`: 自动将原始请求信息解析为`gjson.Json`对象指针返回，`gjson.Json`对象具体在【[gjson模块](encoding/gjson/index.md)】章节中介绍。
 1. `Exit*`: 用于请求流程退出控制，详见本章后续说明；
+
+# 提交方式
+
+`GF`框架的参数获取不是通过`HTTP Method`来做区分，而是通过参数提交类型来区分。例如，分别通过`HTTP Method: POST、INPUT、DELETE`来提交表单参数，在服务端获取参数不是通过`GetPost`/`GetInput`/`GetDelete`的方式来获取，而是统一通过`GetForm`方法来获取表单参数，针对其他的`HTTP Method`也是如此。
+
+在`GF`框架下，有以下几种提交类型：
+1. `Router`: 路由参数，来源于路由规则匹配。
+1. `Query`: `URL`中的`Query String`参数解析，如：`http://127.0.0.1/index?id=1&name=john` 中的`id=1&name=john`。
+1. `Form`: 表单提交参数，最常见的提交方式，提交的`Content-Type`往往为：`application/x-www-form-urlencoded`、`multipart/form-data`、`multipart/mixed`。
+1. `Body`: 原始提交内容，从`Body`中获取并解析得到的参数，`JSON`/`XML`请求往往使用这种方式提交。
+1. `Custom`: 自定义参数，往往在服务端的中间件、服务函数中通过`SetParam/GetParam`方法管理。
 
 # 参数类型
 
@@ -55,15 +68,8 @@ func main() {
 
 # 参数优先级
 
-我们知道参数提交有多种方式，在`GF`框架下，有以下几种方式：
-1. `Router`: 路由参数，来源于路由规则匹配。
-1. `Query`: `URL`中的`query string`参数解析，如：`http://127.0.0.1/index?id=1&name=john` 中的`id=1&name=john`。
-1. `Form`: 表单提交参数，最常见的提交方式。
-1. `Body`: 原始提交内容，从`Body`中获取并解析得到的参数。
-1. `Custom`: 自定义参数。
-
 我们考虑一种场景，当不同的提交方式中存在同名的参数名称会怎么样？在`GF`框架下，我们根据不同的获取方法，将会按照不同的优先级进行获取，优先级高的方式提交的参数将会优先覆盖其他方式的同名参数。优先级规则如下：
-1. `Get*`及`GetRequset*`方法：`Router < Query < Body < Form < Custom`，也就是说自定义参数的优先级最高，其次是`Form`表单参数，再次是`Body`提交参数，以此类推。例如，`Query`和`Form`中都提交了同样名称的参数`id`，参数值分别为`1`和`2`，那么`Get("id")`将会返回`2`，而`GetQuery("id")`将会返回`1`。
+1. `Get*`及`GetRequset*`方法：`Router < Query < Body < Form < Custom`，也就是说自定义参数的优先级最高，其次是`Form`表单参数，再次是`Body`提交参数，以此类推。例如，`Query`和`Form`中都提交了同样名称的参数`id`，参数值分别为`1`和`2`，那么`Get("id")`/`GetForm("id")`将会返回`2`，而`GetQuery("id")`将会返回`1`。
 1. `GetQuery*`方法：`Query > Body`，也就是说`query string`的参数将会覆盖`Body`中提交的同名参数。例如，`Query`和`Body`中都提交了同样名称的参数`id`，参数值分别为`1`和`2`，那么`Get("id")`将会返回`2`，而`GetQuery("id")`将会返回`1`。
 1. `GetForm*`方法：由于该类型的方法仅用于获取`Form`表单参数，因此没什么优先级的差别。
 

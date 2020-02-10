@@ -5,7 +5,7 @@
     * [环境安装](prepare/install.md)
     * [Go Module](prepare/gomodule.md)
     * [开发环境配置](prepare/develop.md)
-    * [私有依赖管理](prepare/vendor.md)
+    * [私有依赖管理](prepare/private.md)
 * [快速开始](#)
     * [新建项目](start/index.md)
     * [开发工作](#)
