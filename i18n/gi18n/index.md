@@ -3,7 +3,9 @@
 
 # I18N国际化
 
-`GF`框架支持I18N国际化，由`gi18n`模块实现。为方便开发者使用，该模块已完美地集成到了`WebServer`及视图引擎组件中。
+`GF`框架支持I18N国际化，由`gi18n`模块实现。
+
+> 为方便开发者使用，提高开发效率，该模块已完美地集成到了`WebServer`及视图引擎组件中。
 
 **使用方式**：
 ```go
@@ -89,47 +91,62 @@ type Options
 
 ### 模板内容转译
 
-`T`方法支持模板内容转换，模板中的关键字默认使用`{#`和`}`标签进行包含，模板解析时将会自动替换该标签中的关键字内容。
+`T`方法支持模板内容转换，模板中的关键字默认使用`{#`和`}`标签进行包含，模板解析时将会自动替换该标签中的关键字内容。使用示例：
+1. 转译文件
+	- `ja.toml`
+		```toml
+		hello = "こんにちは"
+		world = "世界"
+		```
+	- `ru.toml`
+		```toml
+		hello = "Привет"
+		world = "мир"
+		```
+	- `zh-CN.toml`
+		```toml
+		hello = "你好"
+		world = "世界"
+		```
+1. 示例代码
+	```go
+	package main
 
-使用示例：
-```go
-package main
+	import (
+		"fmt"
 
-import (
-	"fmt"
+		"github.com/gogf/gf/i18n/gi18n"
+	)
 
-	"github.com/gogf/gf/i18n/gi18n"
-)
+	func main() {
+		t := gi18n.New()
+		t.SetLanguage("en")
+		fmt.Println(t.Translate(`hello`))
+		fmt.Println(t.Translate(`GF says: {#hello}{#world}!`))
 
-func main() {
-	t := gi18n.New()
-	t.SetLanguage("en")
-	fmt.Println(t.Translate(`hello`))
-	fmt.Println(t.Translate(`{#hello}{#world}!`))
+		t.SetLanguage("ja")
+		fmt.Println(t.Translate(`hello`))
+		fmt.Println(t.Translate(`GF says: {#hello}{#world}!`))
 
-	t.SetLanguage("ja")
-	fmt.Println(t.Translate(`hello`))
-	fmt.Println(t.Translate(`{#hello}{#world}!`))
+		t.SetLanguage("ru")
+		fmt.Println(t.Translate(`hello`))
+		fmt.Println(t.Translate(`GF says: {#hello}{#world}!`))
 
-	t.SetLanguage("ru")
-	fmt.Println(t.Translate(`hello`))
-	fmt.Println(t.Translate(`{#hello}{#world}!`))
-
-	fmt.Println(t.Translate(`hello`, "zh-CN"))
-	fmt.Println(t.Translate(`{#hello}{#world}!`, "zh-CN"))
-}
-```
-执行后，终端输出为：
-```html
-Hello
-HelloWorld!
-こんにちは
-こんにちは世界!
-Привет
-Приветмир!
-你好
-你好世界!
-```
+		fmt.Println(t.Translate(`hello`, "zh-CN"))
+		fmt.Println(t.Translate(`GF says: {#hello}{#world}!`, "zh-CN"))
+	}
+	```
+	执行后，终端输出为：
+	```html
+	Hello
+	GF says: HelloWorld!
+	こんにちは
+	GF says: こんにちは世界!
+	Привет
+	GF says: Приветмир!
+	你好
+	GF says: 你好世界!
+	```
 
 ## `I18N`与视图引擎
 
@@ -149,7 +166,7 @@ import (
 func main() {
 	s := g.Server()
 	s.BindHandler("/", func(r *ghttp.Request) {
-		r.Response.WriteTplContent(`{#hello}{#world}!`, g.Map{
+		r.Response.WriteTplContent(`GF says: {#hello}{#world}!`, g.Map{
 			"I18nLanguage": r.Get("lang", "zh-CN"),
 		})
 	})
@@ -157,6 +174,13 @@ func main() {
 	s.Run()
 }
 ```
-执行后，访问  http://127.0.0.1:8199  和  http://127.0.0.1:8199/?lang=ja  将会得到不同的内容。
-
+执行后，访问以下页面，将会输出：
+1. http://127.0.0.1:8199 
+	```
+	GF says: 你好世界!
+	```
+1. http://127.0.0.1:8199/?lang=ja  
+	```
+	GF says: こんにちは世界!
+	```
 
