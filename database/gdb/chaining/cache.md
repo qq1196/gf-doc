@@ -5,10 +5,10 @@
 相关方法：
 ```go
 // 查询缓存/清除缓存操作，需要注意的是，事务查询不支持缓存。
-// 当time < 0时表示清除缓存， time=0时表示不过期, time > 0时表示过期时间，time过期时间单位：秒；
+// 当duration < 0时表示清除缓存， duration=0时表示不过期, duration > 0时表示过期时间，duration过期时间单位：秒；
 // name表示自定义的缓存名称，便于业务层精准定位缓存项(如果业务层需要手动清理时，必须指定缓存名称)，
 // 例如：查询缓存时设置名称，清理缓存时可以给定清理的缓存名称进行精准清理。
-func (m *Model) Cache(time time.Duration, name ... string) *Model
+func (m *Model) Cache(duration time.Duration, name ... string) *Model
 ```
 # 使用示例
 
