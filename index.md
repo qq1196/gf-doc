@@ -21,13 +21,15 @@
 * 模块化、松耦合设计；
 * 模块丰富，开箱即用；
 * 简便易用、易于维护；
+* 社区活跃、大牛谦逊低调脾气好；
+* 高代码质量、单元测试覆盖率；
 * 详尽的开发文档及示例；
 * 完善的本地中文化支持；
 * 更适合企业及团队使用；
 
-开源项目地址：
-- **主库**: https://github.com/gogf/gf 
-- **码云**: https://gitee.com/johng/gf 
+# 地址
+- **主库**：https://github.com/gogf/gf 
+- **码云**：https://gitee.com/johng/gf 
 
 # 安装
 ```html
@@ -55,7 +57,6 @@ golang版本 >= 1.11
 - QQ交流群：[116707870](//shang.qq.com/wpa/qunwpa?idkey=195f91eceeb5d7fa76009b7cd5a4641f70bf4897b7f5a520635eb26ff17adfe7)
 - WX交流群：微信添加`389961817`备注`GF`加群
 - 主库ISSUE：https://github.com/gogf/gf/issues
-- 国内ISSUE：https://gitee.com/johng/gf/issues
 
 # 协议
 
