@@ -165,7 +165,7 @@
         <!-- * [FAQ常见问题](database/gdb/faq.md) -->
 * [功能模块设计](#)
     * [数据结构容器](#)
-        * [gmap (哈希表/关联数组)](container/gmap/index.md)
+        * [gmap (哈希表)](container/gmap/index.md)
         * [garray (数组)](container/garray/index.md)
         * [gset (集合)](container/gset/index.md)
         * [glist (链表)](container/glist/index.md)
