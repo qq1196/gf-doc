@@ -92,11 +92,11 @@
 
 |数据库类型|Linkinfo配置|更多参数
 |---|---|---
-|mysql|`mysql:账号:密码@tcp(地址:端口)/数据库名称`| [mysql](https://github.com/go-sql-driver/mysql)
-|pgsql|`pgsql:user=账号 password=密码 host=地址 port=端口 dbname=数据库名称`| [pq](https://github.com/lib/pq)
-|mssql|`mssql:user id=账号;password=密码;server=地址;port=端口;database=数据库名称;encrypt=disable`| [go-mssqldb](https://github.com/denisenkom/go-mssqldb)
-|sqlite|`sqlite:文件绝对路径` (如: `/var/lib/db.sqlite3`)| [go-sqlite3](https://github.com/mattn/go-sqlite3)
-|oracle|`oracle:账号/密码@地址:端口/数据库名称`| [go-oci8](https://github.com/mattn/go-oci8)
+|mysql|`mysql: 账号:密码@tcp(地址:端口)/数据库名称`| [mysql](https://github.com/go-sql-driver/mysql)
+|pgsql|`pgsql: user=账号 password=密码 host=地址 port=端口 dbname=数据库名称`| [pq](https://github.com/lib/pq)
+|mssql|`mssql: user id=账号;password=密码;server=地址;port=端口;database=数据库名称;encrypt=disable`| [go-mssqldb](https://github.com/denisenkom/go-mssqldb)
+|sqlite|`sqlite: 文件绝对路径` (如: `/var/lib/db.sqlite3`)| [go-sqlite3](https://github.com/mattn/go-sqlite3)
+|oracle|`oracle: 账号/密码@地址:端口/数据库名称`| [go-oci8](https://github.com/mattn/go-oci8)
 
 各数据库类型更详细的`linkinfo`参数信息请查看对应引擎官网，参考【[ORM数据库类型](database/gdb/database.md)】章节
 
