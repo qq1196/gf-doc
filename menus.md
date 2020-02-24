@@ -101,6 +101,8 @@
     * [调试模式](frame/g/debug.md)
     * [配置管理](#)
         * [基本使用](os/gcfg/index.md)
+        * [单例对象](os/gcfg/instance.md)
+        * [内容配置](os/gcfg/content.md)
         * [TOML格式](os/gcfg/toml.md)
     * [资源管理](os/gres/index.md)
     * [错误处理](errors/gerror/index.md)

@@ -1,7 +1,7 @@
 [TOC]
 
 
-`gf`的配置管理由`gcfg`模块实现，`gcfg`模块是并发安全的，仅提供配置文件读取功能，不提供数据写入/修改功能，**支持的数据文件格式包括： `JSON`、`XML`、`YAML/YML`、`TOML`、`INI`**，项目中开发者可以灵活地选择自己熟悉的配置文件格式来进行配置管理。该模块设计为对配置文件是只读的，如果想要支持对数据文件的修改，并且可以进行数据格式转换，请参看 [gparser包](encoding/gparser/index.md)。
+`GF`的配置管理由`gcfg`模块实现，`gcfg`模块是并发安全的，仅提供配置文件读取功能，不提供数据写入/修改功能，**支持的数据文件格式包括： `JSON`、`XML`、`YAML/YML`、`TOML`、`INI`**，项目中开发者可以灵活地选择自己熟悉的配置文件格式来进行配置管理。
 
 **使用方式**：
 ```go
@@ -15,13 +15,11 @@ https://godoc.org/github.com/gogf/gf/os/gcfg
 
 # 配置管理
 
-
-
 ## 配置文件
 
 默认读取的配置文件为`config.toml`，`toml`类型文件也是默认的、推荐的配置文件格式（语法参考【[TOML格式](os/gcfg/toml.md)】章节），如果想要自定义文件格式，可以通过`SetFileName`方法修改默认读取的配置文件名称（如：`config.json`, `cfg.yaml`, `cfg.xml`, `cfg.ini`等等）。
 
-例如，我们可以通过以下两种方式读取`config.json`配置文件中的数据库配置`database`。
+例如，我们可以通过以下方式读取`config.json`配置文件中的数据库`database`配置项。
 
 ```go
 // 设置默认配置文件，默认的 config.toml 将会被覆盖
@@ -64,18 +62,6 @@ viewpath = "/home/www/templates/"
     cache = "127.0.0.1:6379,1"
 ```
 > 注意：以上`toml`配置文件中的密码字段值`123456`使用了双引号进行包含，用以标识该密码字段为字符串类型，防止配置文件读取时自动转换为整型引起歧义。
-
-## 配置内容
-
-`gcfg`包也支持直接内容配置，而不是读取配置文件，通过以下包配置方法实现全局的配置：
-```go
-func SetContent(content string, file ...string)
-func GetContent(file ...string) string
-func RemoveConfig(file ...string)
-func ClearContent()
-```
-需要注意的是该配置是全局生效的，并且优先级会高于读取配置文件。
-因此，假如我们通过`gcfg.SetContent("v = 1", "config.toml")`配置了`config.toml`的配置内容，并且也同时存在`config.toml`配置文件，那么只会使用到`SetContent`的配置内容，而配置文件内容将会被忽略。
 
 
 ## 配置读取
@@ -133,50 +119,7 @@ g.Cfg().Get("database.default.1.name")
         ```
 
 
-# 单例管理
 
-`gcfg`集成到了`gf`框架的单例管理器中，可以方便地通过`g.Cfg()`获取默认的全局配置管理对象。同时，我们也可以通过`gcfg.Instance`包方法获取配置管理对象单例。
-
-## 使用`g.Config`
-我们来看一个示例，演示如何读取全局配置的信息。需要注意的是，全局配置是与框架相关的，因此统一使用```g.Cfg()```进行获取。以下是一个默认的全局配置文件，包含了模板引擎的目录配置以及MySQL数据库集群（两台master）的配置。
-
-```go
-package main
-
-import (
-    "fmt"
-    "github.com/gogf/gf/frame/g"
-)
-
-func main() {
-    fmt.Println(g.Cfg().GetString("viewpath"))
-    fmt.Println(g.Cfg().GetString("database.default.0.host"))
-}
-```
-以上示例为读取数据库的第一个配置的host信息。运行后输出：
-```html
-/home/www/templates/
-127.0.0.1
-```
-可以看到，我们可以通过`g.Cfg()`方法获取一个全局的配置管理器单例对象。配置文件内容可以通过英文“`.`”号进行层级访问（数组默认从0开始），`pattern`参数`database.default.0.host`表示读取`database`配置项中`default`数据库集群中的第`0`项数据库服务器的`host`数据。
-
-## 使用`gcfg.Instance`
-
-当然也可以独立使用`gcfg`包，通过`Instance`方法获取单例对象。
-
-```go
-package main
-
-import (
-	"fmt"
-	"github.com/gogf/gf/os/gcfg"
-)
-
-func main() {
-	fmt.Println(gcfg.Instance().GetString("viewpath"))
-	fmt.Println(gcfg.Instance().GetString("database.default.0.host"))
-}
-```
 
 
 
