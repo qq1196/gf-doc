@@ -98,6 +98,7 @@
     * [WebSocket](net/websocket.md)
 * [常用开发模块](#)
     * [对象管理](frame/g/index.md)
+    * [调试模式](frame/g/debug.md)
     * [配置管理](#)
         * [基本使用](os/gcfg/index.md)
         * [TOML格式](os/gcfg/toml.md)
