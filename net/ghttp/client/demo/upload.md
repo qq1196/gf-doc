@@ -2,7 +2,7 @@
 
 # 文件上传
 
-`gf`支持非常方便的表单文件上传功能，并且HTTP客户端对上传功能进行了必要的封装并极大简化了上传功能调用。
+`GF`支持非常方便的表单文件上传功能，并且HTTP客户端对上传功能进行了必要的封装并极大简化了上传功能调用。
 
 ## 服务端
 
@@ -14,34 +14,16 @@ package main
 import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
-	"github.com/gogf/gf/os/gfile"
-	"io"
 )
 
 // Upload uploads files to /tmp .
 func Upload(r *ghttp.Request) {
-	saveDir := "/tmp/"
-	for _, item := range r.GetMultipartFiles("upload-file") {
-		file, err := item.Open()
-		if err != nil {
-			r.Response.Write(err)
-			return
-		}
-		defer file.Close()
-
-		f, err := gfile.Create(saveDir + gfile.Basename(item.Filename))
-		if err != nil {
-			r.Response.Write(err)
-			return
-		}
-		defer f.Close()
-
-		if _, err := io.Copy(f, file); err != nil {
-			r.Response.Write(err)
-			return
-		}
+	saveDirPath := "/tmp/"
+	files := r.GetUploadFiles("upload-file")
+	if err := files.Save(saveDirPath); err != nil {
+		r.Response.WriteExit(err)
 	}
-	r.Response.Write("upload successfully")
+	r.Response.WriteExit("upload successfully")
 }
 
 // UploadShow shows uploading simgle file page.
@@ -82,7 +64,7 @@ func UploadShowBatch(r *ghttp.Request) {
 func main() {
 	s := g.Server()
 	s.Group("/upload", func(group *ghttp.RouterGroup) {
-		group.ALL("/", Upload)
+		group.POST("/", Upload)
 		group.ALL("/show", UploadShow)
 		group.ALL("/batch", UploadShowBatch)
 	})
@@ -97,11 +79,11 @@ func main() {
 
 我们这里访问  http://127.0.0.1:8199/upload/show  选择需要上传的单个文件，提交之后可以看到文件上传成功到服务器上。
 
-服务端处理文件上传比较简单，但是需要注意以下几点：
-1. 服务端在上传处理中需要使用`defer file.Close()`关闭掉临时上传文件指针；
-1. 将上传文件转存到其他文件目录时，需要通过`gfile.Create`新建文件，并通过`io.Copy(file, f)`将文件内存写入到新文件中，由于这里使用的是流式读写方式，因此对于服务端的内存占用会比较友好；
-1. 需要使用`defer f.Close()`关闭创建的文件指针；
-
+**关键代码说明**
+1. 我们在服务端可以通过`r.GetUploadFiles`方法获得上传的所有文件对象，也可以通过`r.GetUploadFile`获取单个上传的文件对象；此外，`r.GetUploadFiles`方法的第二个参数支持随机自动命名上传文件；
+1. 在`r.GetUploadFiles("upload-file")`中的参数`"upload-file"`为本示例中客户端上传时的表单文件域名称，开发者可以根据前后端约定在客户端中定义，以方便服务端接收表单文件域参数；
+1. 通过`files.Save`可以将上传的多个文件方便地保存到指定的目录下；
+1. 通过`group.POST("/", Upload)`注册的路由仅支持`POST`方式访问；
 
 ## 客户端
     
