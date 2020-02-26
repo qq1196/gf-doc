@@ -49,8 +49,6 @@ func main() {
     ```
     通过`ghttp.NewClient()`创建一个自定义的http请求客户端对象，并通过`c.SetHeader("Cookie", "name=john; score=100")`设置自定义的Cookie，这里我们设置了两个示例用的Cookie参数，一个`name`，一个`score`，注意多个Cookie参数使用`;`符号分隔。
 
-
-
 1. 使用`SetHeaderRaw`方法
 
     这个方法更加简单，可以通过原始的Header字符串来设置客户端请求Header。
