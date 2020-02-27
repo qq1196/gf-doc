@@ -87,6 +87,7 @@ _ "github.com/mattn/go-sqlite3"
 _ "github.com/lib/pq"
 ```
 **限制**
+1. 不支持`LastInsertId`方法
 1. 不支持`Save/Replace`方法
 
 ## SQL Server
