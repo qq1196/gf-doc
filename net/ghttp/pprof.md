@@ -1,7 +1,7 @@
 
 # 服务性能分析
 
-ghttp包提供了非常强大和简便的服务性能分析功能，内部完美集成了```pprof```性能分析工具，可以在任何时候通过```EnablePprof```方法启用性能分析特性，并可自定义性能分析工具页面路由地址，不传递路由地址时，默认URI地址为```/debug/pprof```。
+ghttp包提供了非常强大和简便的服务性能分析功能，内部完美集成了```pprof```性能分析工具，可以在任何时候通过```EnablePProf```方法启用性能分析特性，并可自定义性能分析工具页面路由地址，不传递路由地址时，默认URI地址为```/debug/pprof```。
 
 我们来看一个简单的例子：
 ```go
@@ -13,7 +13,7 @@ import (
 
 func main() {
     s := ghttp.GetServer()
-    s.EnablePprof()
+    s.EnablePProf()
     s.BindHandler("/", func(r *ghttp.Request){
         r.Response.Writeln("哈喽世界！")
     })
@@ -21,7 +21,7 @@ func main() {
     s.Run()
 }
 ```
-这个例子使用了```s.EnablePprof()```启用了性能分析，默认会自动注册以下几个路由规则：
+这个例子使用了```s.EnablePProf()```启用了性能分析，默认会自动注册以下几个路由规则：
 ```html
 /debug/pprof/*action
 /debug/pprof/cmdline

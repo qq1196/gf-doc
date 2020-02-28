@@ -333,7 +333,11 @@ func MiddlewareCORS(r *ghttp.Request) {
 
 func MiddlewareLog(r *ghttp.Request) {
 	r.Middleware.Next()
-	g.Log().Println(r.Response.Status, r.URL.Path, r.GetError().Error())
+	errStr := ""
+	if err := r.GetError(); err != nil {
+		errStr = err.Error()
+	}
+	g.Log().Println(r.Response.Status, r.URL.Path, errStr)
 }
 
 func main() {
@@ -342,7 +346,7 @@ func main() {
 		"AccessLogEnabled": false,
 		"ErrorLogEnabled":  false,
 	})
-	s.BindMiddlewareDefault(MiddlewareLog)
+	s.Use(MiddlewareLog)
 	s.Group("/api.v2", func(group *ghttp.RouterGroup) {
 		group.Middleware(MiddlewareAuth, MiddlewareCORS)
 		group.ALL("/user/list", func(r *ghttp.Request) {

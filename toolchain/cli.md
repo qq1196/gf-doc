@@ -90,7 +90,7 @@ Built Detail:
 [compiler]
     name     = "my-app"
     version  = "1.0.0"
-    arch     = "i386,amd64"
+    arch     = "386,amd64"
     system   = "linux,windows,darwin"
     output   = ""
     path     = "./bin"
