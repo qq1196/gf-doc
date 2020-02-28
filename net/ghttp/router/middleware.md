@@ -48,15 +48,23 @@ func MiddlewareCORS(r *ghttp.Request) {
 func (s *Server) BindMiddleware(pattern string, handlers ...HandlerFunc)
 func (s *Server) BindMiddlewareDefault(handlers ...HandlerFunc)
 
+// BindMiddlewareDefault 别名
+func (s *Server) Use(handlers ...HandlerFunc)
+
 // 通过Domain对象绑定
 func (d *Domain) BindMiddleware(pattern string, handlers ...HandlerFunc)
 func (d *Domain) BindMiddlewareDefault(handlers ...HandlerFunc)
+
+// BindMiddlewareDefault 别名
+func (d *Domain) Use(handlers ...HandlerFunc)
 ```
 全局中间件是可以独立使用的请求拦截方法，通过路由规则的方式进行注册，绑定到`Server`/`Domain`上，由于中间件需要执行请求拦截操作，因此往往是使用"模糊匹配"或者"命名匹配"规则。
 其中：
 1. `BindMiddleware`方法是将中间件注册到指定的路由规则下，中间件参数可以给定多个。
 1. `BindMiddlewareDefault`方法是将中间件注册到`/*`全局路由规则下。
+1. `Use`方法是`BindMiddlewareDefault`别名。
 
+> 全局中间仅对动态请求拦截，无法拦截静态文件请求。
 
 ### 分组路由中间件
 
@@ -102,8 +110,8 @@ func MiddlewareCORS(r *ghttp.Request) {
 
 func main() {
 	s := g.Server()
+	s.Use(MiddlewareCORS)
 	s.Group("/api.v2", func(group *ghttp.RouterGroup) {
-		group.Middleware(MiddlewareCORS)
 		group.ALL("/user/list", func(r *ghttp.Request) {
 			r.Response.Writeln("list")
 		})
@@ -114,12 +122,14 @@ func main() {
 ```
 执行后，终端打印出路由表信息如下：
 ```
-  SERVER  | ADDRESS | DOMAIN  | METHOD | P |       ROUTE       |      HANDLER      |     MIDDLEWARE       
-|---------|---------|---------|--------|---|-------------------|-------------------|---------------------|
-  default |  :8199  | default |  ALL   | 3 | /api.v2/user/list | main.main.func1.1 | main.MiddlewareCORS  
-|---------|---------|---------|--------|---|-------------------|-------------------|---------------------|
+  SERVER  | DOMAIN  | ADDRESS | METHOD |       ROUTE       |       HANDLER       |    MIDDLEWARE      
+|---------|---------|---------|--------|-------------------|---------------------|-------------------|
+  default | default | :8199   | ALL    | /*                | main.MiddlewareCORS | GLOBAL MIDDLEWARE  
+|---------|---------|---------|--------|-------------------|---------------------|-------------------|
+  default | default | :8199   | ALL    | /api.v2/user/list | main.main.func1.1   |                    
+|---------|---------|---------|--------|-------------------|---------------------|-------------------|
 ```
-可以看到我们的服务方法绑定了一个中间件`main.MiddlewareCORS`，其中`main`为包名，`MiddlewareCORS`为方法名。
+这里我们注册了一个中间件`main.MiddlewareCORS`，使用的是全局中间件方式，使得我们该服务的所有API都允许跨域。
 随后我们可以通过请求 http://127.0.0.1:8199/api.v2/user/list 来查看允许跨域请求的`Header`信息是否有返回。
 
 ![中间件使用示例1，允许跨域请求](/images/middleware-example-1.png)
@@ -159,8 +169,9 @@ func MiddlewareCORS(r *ghttp.Request) {
 
 func main() {
 	s := g.Server()
+	s.Use(MiddlewareCORS)
 	s.Group("/api.v2", func(group *ghttp.RouterGroup) {
-		group.Middleware(MiddlewareAuth, MiddlewareCORS)
+		group.Middleware(MiddlewareAuth)
 		group.ALL("/user/list", func(r *ghttp.Request) {
 			r.Response.Writeln("list")
 		})
@@ -171,17 +182,20 @@ func main() {
 ```
 执行后，终端打印出路由表信息如下：
 ```
-  SERVER  | ADDRESS | DOMAIN  | METHOD | P |       ROUTE       |      HANDLER      |               MIDDLEWARE                 
-|---------|---------|---------|--------|---|-------------------|-------------------|-----------------------------------------|
-  default |  :8199  | default |  ALL   | 3 | /api.v2/user/list | main.main.func1.1 | main.MiddlewareAuth,main.MiddlewareCORS  
-|---------|---------|---------|--------|---|-------------------|-------------------|-----------------------------------------|
+  SERVER  | DOMAIN  | ADDRESS | METHOD |       ROUTE       |       HANDLER       |     MIDDLEWARE       
+|---------|---------|---------|--------|-------------------|---------------------|---------------------|
+  default | default | :8199   | ALL    | /*                | main.MiddlewareCORS | GLOBAL MIDDLEWARE    
+|---------|---------|---------|--------|-------------------|---------------------|---------------------|
+  default | default | :8199   | ALL    | /api.v2/user/list | main.main.func1.1   | main.MiddlewareAuth  
+|---------|---------|---------|--------|-------------------|---------------------|---------------------|
 ```
-可以看到，我们的服务方法绑定了两个中间件，按照先后顺序执行：`main.MiddlewareAuth,main.MiddlewareCORS`。
+可以看到，我们的服务方法绑定了两个中间件，跨域使用了全局中间件方式，而鉴权使用了分组中间件方式绑定到对应的API上。
+请求时将会先执行`main.MiddlewareCORS`全局中间件，再执行`main.MiddlewareAuth`分组中间件。
 随后我们可以通过请求 http://127.0.0.1:8199/api.v2/user/list 和 http://127.0.0.1:8199/api.v2/user/list?token=123456 对比来查看效果。
 
-![使用示例2，请求鉴权处理](/images/middleware-example-2-1.png)
+![使用示例2，请求鉴权处理](/images/WX20200228-225110@2x.png)
 
-![使用示例2，请求鉴权处理](/images/middleware-example-2-2.png)
+![使用示例2，请求鉴权处理](/images/WX20200228-225009@2x.png)
 
 ## 使用示例3，鉴权例外处理
 
@@ -280,8 +294,9 @@ func MiddlewareErrorHandler(r *ghttp.Request) {
 
 func main() {
 	s := g.Server()
+	s.Use(MiddlewareCORS)
 	s.Group("/api.v2", func(group *ghttp.RouterGroup) {
-		group.Middleware(MiddlewareAuth, MiddlewareCORS, MiddlewareErrorHandler)
+		group.Middleware(MiddlewareAuth, MiddlewareErrorHandler)
 		group.ALL("/user/list", func(r *ghttp.Request) {
 			panic("db error: sql is xxxxxxx")
 		})
@@ -292,10 +307,12 @@ func main() {
 ```
 执行后，终端打印出路由表信息如下：
 ```
-  SERVER  | ADDRESS | DOMAIN  | METHOD | P |       ROUTE       |      HANDLER      |                             MIDDLEWARE                               
-|---------|---------|---------|--------|---|-------------------|-------------------|---------------------------------------------------------------------|
-  default |  :8199  | default |  ALL   | 3 | /api.v2/user/list | main.main.func1.1 | main.MiddlewareAuth,main.MiddlewareCORS,main.MiddlewareErrorHandler  
-|---------|---------|---------|--------|---|-------------------|-------------------|---------------------------------------------------------------------|
+  SERVER  | DOMAIN  | ADDRESS | METHOD |       ROUTE       |       HANDLER       |                   MIDDLEWARE                     
+|---------|---------|---------|--------|-------------------|---------------------|-------------------------------------------------|
+  default | default | :8199   | ALL    | /*                | main.MiddlewareCORS | GLOBAL MIDDLEWARE                                
+|---------|---------|---------|--------|-------------------|---------------------|-------------------------------------------------|
+  default | default | :8199   | ALL    | /api.v2/user/list | main.main.func1.1   | main.MiddlewareAuth,main.MiddlewareErrorHandler  
+|---------|---------|---------|--------|-------------------|---------------------|-------------------------------------------------|
 ```
 在该示例中，我们在后置中间件中判断有无系统错误，如果有则返回固定的提示信息，而不是把敏感的报错信息展示给用户。当然，在真实的项目场景中，往往还有是需要解析返回缓冲区的数据，例如`JSON`数据，根据当前的执行结果进行封装返回固定的数据格式等等。
 
@@ -346,9 +363,9 @@ func main() {
 		"AccessLogEnabled": false,
 		"ErrorLogEnabled":  false,
 	})
-	s.Use(MiddlewareLog)
+	s.Use(MiddlewareLog, MiddlewareCORS)
 	s.Group("/api.v2", func(group *ghttp.RouterGroup) {
-		group.Middleware(MiddlewareAuth, MiddlewareCORS)
+		group.Middleware(MiddlewareAuth)
 		group.ALL("/user/list", func(r *ghttp.Request) {
 			panic("啊！我出错了！")
 		})
@@ -360,9 +377,9 @@ func main() {
 
 ![使用示例5，自定义日志处理](/images/middleware-example-5-1.png)
 
-![使用示例5，自定义日志处理](/images/middleware-example-5-2.png)
+![使用示例5，自定义日志处理](/images/WX20200228-223846@2x.png)
 
-可以看到，我们注册了一个全局的日志处理中间件，而鉴权和跨域中间件是注册到`/api.v2`路由下。
+可以看到，我们注册了一个全局的日志处理中间件以及跨域中间件，而鉴权中间件是注册到`/api.v2`路由下。
 
 执行后，我们可以通过请求 http://127.0.0.1:8199/api.v2/user/list 和 http://127.0.0.1:8199/api.v2/user/list?token=123456 对比来查看效果，并查看终端的日志输出情况。
 
