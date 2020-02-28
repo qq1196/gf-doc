@@ -64,7 +64,7 @@ func (d *Domain) Use(handlers ...HandlerFunc)
 1. `BindMiddlewareDefault`方法是将中间件注册到`/*`全局路由规则下。
 1. `Use`方法是`BindMiddlewareDefault`别名。
 
-> 全局中间仅对动态请求拦截，无法拦截静态文件请求。
+> 全局中间件仅对动态请求拦截有效，无法拦截静态文件请求。
 
 ### 分组路由中间件
 
