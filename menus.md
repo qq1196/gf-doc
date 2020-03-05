@@ -64,7 +64,7 @@
             * [基本使用](net/ghttp/client/demo/index.md)
             * [文件上传](net/ghttp/client/demo/upload.md)
             * [自定义Header](net/ghttp/client/demo/header.md)
-    * [分页管理](#)
+    * [分页管理(更新中)](#)
         * [基本介绍](util/gpage/index.md)
         * [动态分页](util/gpage/dynamic.md)
         * [静态分页](util/gpage/static.md)
