@@ -189,11 +189,11 @@ func (c *Rest) Hello() {
 
 ## 构造方法`Init`与析构方法`Shut`
 
-```ghttp.Controller```接口中的```Init```和```Shut```是两个在HTTP请求流程中被WebServer自动调用的特殊方法(类似构造函数和析构函数的作用)。```gmvc.Controller```基类中已经实现了这两个方法，用户自定义的控制器类直接继承```gmvc.Controller```即可。**如果需要自定义请求初始化以及请求结束时的一些业务逻辑操作，可以在自定义控制器中重载这两个方法**。
+`ghttp.Controller`接口中的`Init`和`Shut`是两个在HTTP请求流程中被WebServer自动调用的特殊方法(类似构造函数和析构函数的作用)。`gmvc.Controller`基类中已经实现了这两个方法，用户自定义的控制器类直接继承`gmvc.Controller`即可。如果需要自定义请求初始化以及请求结束时的一些业务逻辑操作，可以在自定义控制器中重载这两个方法。
 
 1. `Init`回调方法
 
-	控制器初始化方法，参数是当前请求的对象。```gmvc.Controller```基类中的Init方法是对自身成员对象的初始化。
+	控制器初始化方法，参数是当前请求的对象。`gmvc.Controller`基类中的Init方法是对自身成员对象的初始化。
 
     方法定义：
     ```go
