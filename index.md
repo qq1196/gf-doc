@@ -1,5 +1,5 @@
 <div align=center>
-<img src="https://gf.cdn.johng.cn/logo.png" width="100"/>
+<img src="/logo.png" width="100"/>
 
 [![Go Doc](https://godoc.org/github.com/gogf/gf?status.svg)](https://godoc.org/github.com/gogf/gf) 
 [![Build Status](https://travis-ci.org/gogf/gf.svg?branch=master)](https://travis-ci.org/gogf/gf) 
@@ -44,7 +44,7 @@ golang版本 >= 1.11
 
 # 架构
 <div align=center>
-<img src="https://gf.cdn.johng.cn/images/arch.png?v=1"/>
+<img src="/images/arch.png?v=1"/>
 </div>
 
 
