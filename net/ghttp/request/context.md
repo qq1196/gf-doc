@@ -1,7 +1,20 @@
 
 # 上下文变量
 
-请求流程往往会在上下文中共享一些自定义设置的变量，例如在请求开始之前通过中间件或者`HOOK`设置一些变量（或者改变`Request`对象的一些设置），随后在路由服务方法中可以获取该变量并相应对一些处理。这种需求比较常见，在标准库中往往使用`context`上下文包来做处理，但相对较繁琐（应用场景有限）。我们推荐使用`GF`框架的`Param`自定义变量来处理。
+请求流程往往会在上下文中共享一些自定义设置的变量，例如在请求开始之前通过中间件设置一些变量，随后在路由服务方法中可以获取该变量并相应对一些处理。这种需求非常常见。在`GF`框架中，我们推荐使用`Context`上下文对象来处理流程共享的上下文变量，甚至将该对象进一步传递到依赖的各个模块方法中。该`Context`对象类型实现了标准库的`context.Context`接口，该接口往往会作为模块间调用方法的第一个参数，该接口参数也是`Golang`官方推荐的在模块间传递上下文变量的推荐方式。
+
+方法列表：
+```go
+func (r *Request) GetCtx() context.Context
+func (r *Request) GetCtxVar(key interface{}, def ...interface{}) *gvar.Var
+func (r *Request) SetCtxVar(key interface{}, value interface{})
+```
+
+简要说明：
+
+1. `GetCtx`方法用于获取当前的`context.Context`对象，作用同`Context`方法。
+1. `GetCtxVar`方法用于获取上下文变量，并可给定当该变量不存在时的默认值。
+1. `SetCtxVar`方法用于设置上下文变量。
 
 使用示例：
 
@@ -13,43 +26,30 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 )
 
-// 前置中间件1
-func MiddlewareBefore1(r *ghttp.Request) {
-	r.SetParam("name", "GoFrame")
-	r.Response.Writeln("set name")
-	r.Middleware.Next()
-}
-
-// 前置中间件2
-func MiddlewareBefore2(r *ghttp.Request) {
-	r.SetParam("site", "https://goframe.org")
-	r.Response.Writeln("set site")
-	r.Middleware.Next()
-}
+const (
+	TraceIdName = "trace-id"
+)
 
 func main() {
 	s := g.Server()
 	s.Group("/", func(group *ghttp.RouterGroup) {
-		group.Middleware(MiddlewareBefore1, MiddlewareBefore2)
+		group.Middleware(func(r *ghttp.Request) {
+			r.SetCtxVar(TraceIdName, "HBm876TFCde435Tgf")
+			r.Middleware.Next()
+		})
 		group.ALL("/", func(r *ghttp.Request) {
-			r.Response.Writefln(
-				"%s: %s",
-				r.GetParamVar("name").String(),
-				r.GetParamVar("site").String(),
-			)
+			r.Response.Write(r.GetCtxVar(TraceIdName))
 		})
 	})
 	s.SetPort(8199)
 	s.Run()
 }
 ```
-可以看到，我们可以通过`SetParam`和`GetParam`来设置和获取自定义的变量，该变量生命周期仅限于当前请求流程。
+可以看到，我们可以通过`SetCtxVar`和`GetCtxVar`来设置和获取自定义的变量，该变量生命周期仅限于当前请求流程。
 
-执行后，访问 [http://127.0.0.1:8199/ ，页面输出内容为：
+执行后，访问 http://127.0.0.1:8199/ ，页面输出内容为：
 ```
-set name
-set site
-GoFrame: https://goframe.org
+HBm876TFCde435Tgf
 ```
 
 

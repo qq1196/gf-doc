@@ -19,7 +19,7 @@ import "github.com/gogf/gf/container/gpool"
 https://godoc.org/github.com/gogf/gf/container/gpool
 
 需要注意两点：
-1. `New`方法的过期时间单位为`毫秒`；
+1. `New`方法的过期时间类型为`time.Duration`；
 1. 对象`创建方法`(`newFunc NewFunc`)返回值包含一个`error`返回，当对象创建失败时可由该返回值反馈原因；
 1. 对象`销毁方法`(`expireFunc...ExpireFunc`)为可选参数，用以当对象超时/池关闭时，自动调用自定义的方法销毁对象；
 
@@ -41,8 +41,8 @@ import (
 )
 
 func main () {
-    // 创建一个对象池，过期时间为1000毫秒
-    p := gpool.New(1000, nil)
+    // 创建一个对象池，过期时间为1秒
+    p := gpool.New(time.Second, nil)
 
     // 从池中取一个对象，返回nil及错误信息
     fmt.Println(p.Get())
@@ -75,8 +75,8 @@ import (
 )
 
 func main() {
-	// 创建对象复用池，对象过期时间为3000毫秒，并给定创建及销毁方法
-	p := gpool.New(3000, func() (interface{}, error) {
+	// 创建对象复用池，对象过期时间为3秒，并给定创建及销毁方法
+	p := gpool.New(3*time.Second, func() (interface{}, error) {
 		return gtcp.NewConn("www.baidu.com:80")
 	}, func(i interface{}) {
 		glog.Println("expired")

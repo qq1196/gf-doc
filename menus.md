@@ -42,6 +42,7 @@
         * [对象处理](net/ghttp/request/struct.md)
         * [请求校验](net/ghttp/request/validation.md)
         * [JSON/XML](net/ghttp/request/json-xml.md)
+        * [自定义变量](net/ghttp/request/custom.md)
         * [上下文变量](net/ghttp/request/context.md)
         * [Exit退出方法](net/ghttp/request/exit.md)
         * [文件上传](net/ghttp/request/upload.md)

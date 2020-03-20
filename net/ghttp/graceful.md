@@ -4,13 +4,18 @@
 
 # 基本介绍
 
-`平滑重启`(`热重启`)是指WebServer在重启的时候不会中断已有请求的执行。该特性在不同的项目版本发布的时候特别有用，例如，当需要先后发布两个版本：A、B，那么在A执行的过程当中，我们可以将B的程序发布`直接覆盖`A的程序，并使用平滑重启特性(使用`Web`或者`命令行`)无缝地将请求过渡到新版本的服务中。
+`平滑重启`(`热重启`)是指`WebServer`在重启的时候不会中断已有请求的执行。该特性在不同的项目版本发布的时候特别有用，例如，当需要先后发布两个版本：A、B，那么在A执行的过程当中，我们可以将B的程序发布`直接覆盖`A的程序，并使用平滑重启特性(使用`Web`或者`命令行`)无缝地将请求过渡到新版本的服务中。
 
-需要注意的是，该特性仅限于```*nix```系统(Linux/Unix/FreeBSD等等)，在Windows下仅支持完整重启功能(请求无法平滑过渡)。
+需要注意的是，该特性仅限于`*nix`系统(`Linux/Unix/FreeBSD`等等)，在Windows下仅支持完整重启功能(请求无法平滑过渡)。
+
+
+> 目前平滑重启特性需要在本地打开一个`10000`端口的`tcp`监听服务。
+
+> 默认情况下平滑重启特性是关闭的，可以通过配置选项打开，具体请查看`WebServer`的配置管理章节。
 
 # 管理功能
 
-gf框架支持非常方便的`Web管理功能`，也就是说我们可以通过Web页面/接口直接进行WebServer的重启/关闭等管理操作。同时，gf框架也支持通过`命令行终端指令`(仅限```*nix```系统)的形式进行WebServer的重启/关闭等管理操作。
+`gf`框架支持非常方便的`Web管理功能`，也就是说我们可以通过Web页面/接口直接进行WebServer的重启/关闭等管理操作。同时，gf框架也支持通过`命令行终端指令`(仅限```*nix```系统)的形式进行WebServer的重启/关闭等管理操作。
 
 
 ## Web管理
@@ -22,7 +27,7 @@ func (s *Server) Shutdown() error
 
 func (s *Server) EnableAdmin(pattern ...string)
 ```
-`Restart`用于重启服务（```*nix```系统下为平滑重启，```windows```下为完整重启），```Shutdown```用于关闭服务，```EnableAdmin```用于将管理页面注册到指定的路由规则上，默认地址是```/debug/admin```(我们可以指定一个私密的管理地址，也可以对该路由规则绑定`ghttp.HOOK_BEFORE_SERVE`事件回调来进行页面鉴权)。
+`Restart`用于重启服务（`*nix`系统下为平滑重启，`windows`下为完整重启），`Shutdown`用于关闭服务，`EnableAdmin`用于将管理页面注册到指定的路由规则上，默认地址是`/debug/admin`(我们可以指定一个私密的管理地址，也可以使用中间件来对该页面进行鉴权)。
 
 以下对其中两个方法做详细说明。
 1. **Restart**
@@ -30,8 +35,8 @@ func (s *Server) EnableAdmin(pattern ...string)
 	`Restart`的参数可指定自定义重启的可执行文件路径(`newExeFilePath`)，不传递时默认为原可执行文件路径。特别是在windows系统下，当可执行文件正在使用时，无法对其进行文件替换更新（新版本文件替换老版本文件）。当指定自定义的可执行文件路径后，WebServer重启时将会执行新版本的可执行文件，不再使用老版本文件，这种特性简化了在某些系统上的版本更新流程。
 
 1. **EnableAdmin**
-	* 首先，该方法为用户管理WebServer提供了简便的页面和接口，在单WebServer下管理非常方便，直接访问管理页面点击对应链接即可。需要注意的是，由于带有管理功能，如果是在生产环境上，建议自定义该管理地址为一个私密地址。
-	* 同时，```EnableaAdmim```提供的restart接口也支持自定义可执行文件路径，直接通过GET参数往restart接口传递```newExeFilePath```变量即可，例如： http://127.0.0.1/debug/admin/restart?newExeFilePath=xxxxxxx 
+	* 首先，该方法为用户管理`WebServer`提供了简便的页面和接口，在单WebServer下管理非常方便，直接访问管理页面点击对应链接即可。需要注意的是，由于带有管理功能，如果是在生产环境上，建议自定义该管理地址为一个私密地址。
+	* 同时，`EnableaAdmim`提供的restart接口也支持自定义可执行文件路径，直接通过GET参数往restart接口传递`newExeFilePath`变量即可，例如： http://127.0.0.1/debug/admin/restart?newExeFilePath=xxxxxxx 
 	* 此外，在大多数时候，WebServer往往不只有1个节点，因此大多数服务管理运维中，例如：重启操作，当然不是直接访问每个WebServer的admin页面手动执行重启操作。而是充分利用admin页面提供的功能接口，通过接口控制来实现统一的WebServer管理控制。
 
 ### 示例1：基本使用
@@ -114,7 +119,7 @@ func main() {
     s.Run()
 }
 ```
-gf框架的平滑重启特性对于HTTPS的支持也是相当友好和简便，操作步骤如下：
+`gf`框架的平滑重启特性对于HTTPS的支持也是相当友好和简便，操作步骤如下：
 1. 访问 https://127.0.0.1:8200/debug/admin/restart 平滑重启HTTPS服务；
 2. 访问 https://127.0.0.1:8200/debug/admin/shutdown 平滑关闭WebServer服务；
 
@@ -128,7 +133,7 @@ gf框架的平滑重启特性对于HTTPS的支持也是相当友好和简便，�
 2018-05-18 11:13:34.895 17269: all servers shutdown
 ```
 ### 示例3：多服务及多端口
-gf框架的平滑重启特性相当强大及稳定，不仅仅支持单一服务单一端口监听管理，同时也支持多服务多端口等复杂场景的监听管理。
+`gf`框架的平滑重启特性相当强大及稳定，不仅仅支持单一服务单一端口监听管理，同时也支持多服务多端口等复杂场景的监听管理。
 ```go
 package main
 
@@ -150,7 +155,7 @@ func main() {
     g.Wait()
 }
 ```
-以上示例演示的是两个WebServer ```s1```及```s2```，分别监听```8100```，```8200```及```8300```，```8400```。我们随后访问 http://127.0.0.1:8100/debug/admin/reload 平滑重启服务，然后再通过 http://127.0.0.1:8100/debug/admin/shutdown 平滑关闭服务，最终在终端打印出的信息如下：
+以上示例演示的是两个WebServer `s1`及`s2`，分别监听`8100`，`8200`及`8300`，`8400`。我们随后访问 http://127.0.0.1:8100/debug/admin/reload 平滑重启服务，然后再通过 http://127.0.0.1:8100/debug/admin/shutdown 平滑关闭服务，最终在终端打印出的信息如下：
 ```shell
 2018-05-18 11:26:54.729 18111: http server started listening on [:8400]
 2018-05-18 11:26:54.729 18111: http server started listening on [:8100]
@@ -168,20 +173,20 @@ func main() {
 
 ## 命令行管理
 
-gf框架除了提供Web方式的管理能力以外，也支持命令行方式来进行管理，由于命令行采用了```信号量```进行管理，因此仅支持```*nix```系统。
+`gf`框架除了提供`Web`方式的管理能力以外，也支持命令行方式来进行管理，由于命令行采用了`信号量`进行管理，因此仅支持`*nix`系统。
 
 ### 重启服务
-使用```SIGUSR1```信号量实现，**使用方式**：
+使用`SIGUSR1`信号量实现，使用方式：
 ```shell
 kill -SIGUSR1 进程ID
 ```
 
 ### 关闭服务
-使用```SIGINT/SIGQUIT/SIGKILL/SIGHUP/SIGTERM```其中任意一个信号量来实现，**使用方式**：
+使用`SIGINT/SIGQUIT/SIGKILL/SIGHUP/SIGTERM`其中任意一个信号量来实现，使用方式：
 ```shell
 kill -SIGTERM 进程ID
 ```
 
 ## 其他管理方式
 
-由于gf框架的WebServer采用了单例设计，因此任何地方都可以通过```g.Server(名称)```或者```ghttp.GetServer(名称)```来获得对应WebServer的单例对象，随后通过```Restart```和```Shutdown```方法可以实现对该WebServer的管理。
+由于`gf`框架的`WebServer`采用了单例设计，因此任何地方都可以通过`g.Server(名称)`或者`ghttp.GetServer(名称)`来获得对应WebServer的单例对象，随后通过`Restart`和`Shutdown`方法可以实现对该WebServer的管理。
