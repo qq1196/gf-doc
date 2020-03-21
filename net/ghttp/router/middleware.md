@@ -110,8 +110,8 @@ func MiddlewareCORS(r *ghttp.Request) {
 
 func main() {
 	s := g.Server()
-	s.Use(MiddlewareCORS)
 	s.Group("/api.v2", func(group *ghttp.RouterGroup) {
+		group.Middleware(MiddlewareCORS)
 		group.ALL("/user/list", func(r *ghttp.Request) {
 			r.Response.Writeln("list")
 		})
@@ -122,15 +122,13 @@ func main() {
 ```
 执行后，终端打印出路由表信息如下：
 ```
-  SERVER  | DOMAIN  | ADDRESS | METHOD |       ROUTE       |       HANDLER       |    MIDDLEWARE      
-|---------|---------|---------|--------|-------------------|---------------------|-------------------|
-  default | default | :8199   | ALL    | /*                | main.MiddlewareCORS | GLOBAL MIDDLEWARE  
-|---------|---------|---------|--------|-------------------|---------------------|-------------------|
-  default | default | :8199   | ALL    | /api.v2/user/list | main.main.func1.1   |                    
-|---------|---------|---------|--------|-------------------|---------------------|-------------------|
+  SERVER  | DOMAIN  | ADDRESS | METHOD |       ROUTE       |      HANDLER      |     MIDDLEWARE       
+|---------|---------|---------|--------|-------------------|-------------------|---------------------|
+  default | default | :8199   | ALL    | /api.v2/user/list | main.main.func1.1 | main.MiddlewareCORS  
+|---------|---------|---------|--------|-------------------|-------------------|---------------------|
+
 ```
-这里我们注册了一个中间件`main.MiddlewareCORS`，使用的是全局中间件方式，使得我们该服务的所有API都允许跨域。
-随后我们可以通过请求 http://127.0.0.1:8199/api.v2/user/list 来查看允许跨域请求的`Header`信息是否有返回。
+这里我们使用`group.Middleware(MiddlewareCORS)`将跨域中间件通过分组路由的形式注册绑定到了`/api.v2`路由下所有的服务函数中。随后我们可以通过请求 http://127.0.0.1:8199/api.v2/user/list 来查看允许跨域请求的`Header`信息是否有返回。
 
 ![中间件使用示例1，允许跨域请求](/images/middleware-example-1.png)
 
@@ -169,9 +167,8 @@ func MiddlewareCORS(r *ghttp.Request) {
 
 func main() {
 	s := g.Server()
-	s.Use(MiddlewareCORS)
 	s.Group("/api.v2", func(group *ghttp.RouterGroup) {
-		group.Middleware(MiddlewareAuth)
+		group.Middleware(MiddlewareCORS, MiddlewareAuth)
 		group.ALL("/user/list", func(r *ghttp.Request) {
 			r.Response.Writeln("list")
 		})
@@ -182,15 +179,13 @@ func main() {
 ```
 执行后，终端打印出路由表信息如下：
 ```
-  SERVER  | DOMAIN  | ADDRESS | METHOD |       ROUTE       |       HANDLER       |     MIDDLEWARE       
-|---------|---------|---------|--------|-------------------|---------------------|---------------------|
-  default | default | :8199   | ALL    | /*                | main.MiddlewareCORS | GLOBAL MIDDLEWARE    
-|---------|---------|---------|--------|-------------------|---------------------|---------------------|
-  default | default | :8199   | ALL    | /api.v2/user/list | main.main.func1.1   | main.MiddlewareAuth  
-|---------|---------|---------|--------|-------------------|---------------------|---------------------|
+  SERVER  | DOMAIN  | ADDRESS | METHOD |       ROUTE       |      HANDLER      |               MIDDLEWARE                 
+|---------|---------|---------|--------|-------------------|-------------------|-----------------------------------------|
+  default | default | :8199   | ALL    | /api.v2/user/list | main.main.func1.1 | main.MiddlewareCORS,main.MiddlewareAuth  
+|---------|---------|---------|--------|-------------------|-------------------|-----------------------------------------|
 ```
-可以看到，我们的服务方法绑定了两个中间件，跨域使用了全局中间件方式，而鉴权使用了分组中间件方式绑定到对应的API上。
-请求时将会先执行`main.MiddlewareCORS`全局中间件，再执行`main.MiddlewareAuth`分组中间件。
+可以看到，我们的服务方法绑定了两个中间件，跨域中间件和而鉴权中间件。
+请求时将会按照中间件注册的先后顺序，先执行`MiddlewareCORS`全局中间件，再执行`MiddlewareAuth`分组中间件。
 随后我们可以通过请求 http://127.0.0.1:8199/api.v2/user/list 和 http://127.0.0.1:8199/api.v2/user/list?token=123456 对比来查看效果。
 
 ![使用示例2，请求鉴权处理](/images/WX20200228-225110@2x.png)

@@ -6,19 +6,7 @@
 
 相关方法：
 https://godoc.org/github.com/gogf/gf/net/ghttp#Response
-```go
-// 默认的CORS配置
-func (r *Response) DefaultCORSOptions() CORSOptions
 
-// CORS sets custom CORS options.
-// See https://www.w3.org/TR/cors/ .
-func (r *Response) CORS(options CORSOptions)
-// DefaultCORSOptions returns the default CORS options,
-// which allows any cross-domain request.
-func (r *Response) CORSDefault()
-// CORSAllowed checks whether the current request origin is allowed CORS.
-func (r *Response) CORSAllowedOrigin(options CORSOptions) bool 
-```
 
 ## `CORS`对象
 `CORS`是`W3`互联网标准组织对HTTP跨域请求的标准，在`ghttp`模块中，我们可以通过`CORSOptions`对象来管理对应的跨域请求选项。定义如下：
@@ -38,6 +26,7 @@ type CORSOptions struct {
 具体参数的介绍请查看W3组织[官网手册](https://www.w3.org/TR/cors/)。
 
 ## `CORS`配置
+
 ### 默认`CORSOptions`
 当然，为方便跨域设置，在`ghttp`模块中也提供了默认的跨域请求选项，通过`DefaultCORSOptions`方法获取。大多数情况下，我们在需要允许跨域请求的接口中（一般情况下使用中间件）可以直接使用`CORSDefault()`允许该接口跨域访问。
 
@@ -52,6 +41,11 @@ func Middleware(r *ghttp.Request) {
 	r.Middleware.Next()
 }
 ```
+
+## `OPTIONS`请求
+
+有的客户端，部分浏览器在发送`AJAX`请求之前会首先发送`OPTIONS`预请求检测后续请求是否允许发送。`GF`框架的`Server`完全遵守`W3C`关于`OPTIONS`请求方法的规范约定，因此只要服务端设置好`CORS`中间件，`OPTIONS`请求也将会自动支持。
+
 
 ## 使用示例1，基本使用
 我们来看一个简单的接口示例：
