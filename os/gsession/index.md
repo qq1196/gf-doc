@@ -22,57 +22,9 @@ https://godoc.org/github.com/gogf/gf/os/gsession
 在`gsession`模块中有比较重要的三个对象/接口：
 1. `gsession.Manager`：管理`Session`对象、`Storage`持久化存储对象、以及过期时间控制。
 1. `gsession.Session`：单个`Session`会话管理对象，用于`Session`参数的增删查改等数据管理操作。
-1. `gsession.Storage`：这是一个接口定义，用于`Session`对象的持久化存储、数据写入/读取、存活更新等操作，开发者可基于该接口实现自定义的持久化存储特性。该接口定义如下：
-    https://github.com/gogf/gf/blob/master/os/gsession/gsession_storage.go
-    ```go
-    type Storage interface {
-        // New creates a custom session id.
-        // This function can be used for custom session creation.
-        New(ttl time.Duration) (id string)
-
-        // Get retrieves session value with given key.
-        // It returns nil if the key does not exist in the session.
-        Get(id string, key string) interface{}
-
-        // GetMap retrieves all key-value pairs as map from storage.
-        GetMap(id string) map[string]interface{}
-
-        // GetSize retrieves the size of key-value pairs from storage.
-        GetSize(id string) int
-
-        // Set sets key-value session pair to the storage.
-        // The parameter <ttl> specifies the TTL for the session id (not for the key-value pair).
-        Set(id string, key string, value interface{}, ttl time.Duration) error
-
-        // SetMap batch sets key-value session pairs with map to the storage.
-        // The parameter <ttl> specifies the TTL for the session id(not for the key-value pair).
-        SetMap(id string, data map[string]interface{}, ttl time.Duration) error
-
-        // Remove deletes key with its value from storage.
-        Remove(id string, key string) error
-
-        // RemoveAll deletes all key-value pairs from storage.
-        RemoveAll(id string) error
-
-        // GetSession returns the session data as *gmap.StrAnyMap for given session id from storage.
-        //
-        // The parameter <ttl> specifies the TTL for this session, and it returns nil if the TTL is exceeded.
-        // The parameter <data> is the current old session data stored in memory,
-        // and for some storage it might be nil if memory storage is disabled.
-        //
-        // This function is called ever when session starts.
-        GetSession(id string, ttl time.Duration, data *gmap.StrAnyMap) (*gmap.StrAnyMap, error)
-
-        // SetSession updates the data for specified session id.
-        // This function is called ever after session, which is changed dirty, is closed.
-        // This copy all session data map from memory to storage.
-        SetSession(id string, data *gmap.StrAnyMap, ttl time.Duration) error
-
-        // UpdateTTL updates the TTL for specified session id.
-        // This function is called ever after session, which is not dirty, is closed.
-        UpdateTTL(id string, ttl time.Duration) error
-    }
-    ```
+1. `gsession.Storage`：这是一个接口定义，用于`Session`对象的持久化存储、数据写入/读取、存活更新等操作，开发者可基于该接口实现自定义的持久化存储特性。
+该接口定义详见：https://github.com/gogf/gf/blob/master/os/gsession/gsession_storage.go
+    
 
 # 存储实现方式
 
