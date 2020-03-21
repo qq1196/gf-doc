@@ -20,10 +20,11 @@ import (
 func Upload(r *ghttp.Request) {
 	saveDirPath := "/tmp/"
 	files := r.GetUploadFiles("upload-file")
-	if err := files.Save(saveDirPath); err != nil {
+    names, err := files.Save(saveDirPath)
+    if err != nil {
 		r.Response.WriteExit(err)
 	}
-	r.Response.WriteExit("upload successfully")
+	r.Response.WriteExit("upload successfully: ", names)
 }
 
 // UploadShow shows uploading simgle file page.
@@ -80,10 +81,10 @@ func main() {
 我们这里访问  http://127.0.0.1:8199/upload/show  选择需要上传的单个文件，提交之后可以看到文件上传成功到服务器上。
 
 **关键代码说明**
-1. 我们在服务端可以通过`r.GetUploadFiles`方法获得上传的所有文件对象，也可以通过`r.GetUploadFile`获取单个上传的文件对象；此外，`r.GetUploadFiles`方法的第二个参数支持随机自动命名上传文件；
-1. 在`r.GetUploadFiles("upload-file")`中的参数`"upload-file"`为本示例中客户端上传时的表单文件域名称，开发者可以根据前后端约定在客户端中定义，以方便服务端接收表单文件域参数；
-1. 通过`files.Save`可以将上传的多个文件方便地保存到指定的目录下；
-1. 通过`group.POST("/", Upload)`注册的路由仅支持`POST`方式访问；
+1. 我们在服务端可以通过`r.GetUploadFiles`方法获得上传的所有文件对象，也可以通过`r.GetUploadFile`获取单个上传的文件对象；此外，`r.GetUploadFiles`方法的第二个参数支持随机自动命名上传文件。
+1. 在`r.GetUploadFiles("upload-file")`中的参数`"upload-file"`为本示例中客户端上传时的表单文件域名称，开发者可以根据前后端约定在客户端中定义，以方便服务端接收表单文件域参数。
+1. 通过`files.Save`可以将上传的多个文件方便地保存到指定的目录下，并返回保存成功的文件名。如果是批量保存，只要任意一个文件保存失败，都将会立即返回错误。
+1. 通过`group.POST("/", Upload)`注册的路由仅支持`POST`方式访问。
 
 ## 客户端
     
