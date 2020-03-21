@@ -189,7 +189,7 @@
             * [基本介绍](encoding/gjson/index.md)
             * [对象创建](encoding/gjson/object.md)
             * [层级访问](encoding/gjson/pattern.md)
-            * [对象转换](encoding/gjson/conversion-struct.md)
+            * [Struct转换](encoding/gjson/conversion-struct.md)
             * [动态创建修改](encoding/gjson/dataset.md)
             * [数据格式转换](encoding/gjson/conversion-format.md)
         * [gparser (通用编码解析)](encoding/gparser/index.md)
