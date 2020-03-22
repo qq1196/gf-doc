@@ -158,6 +158,7 @@
             * [数据查询](database/gdb/chaining/select.md)
             * [对象输入](database/gdb/chaining/struct.md)
             * [字段过滤](database/gdb/chaining/fields-filter.md)
+            * [字段获取](database/gdb/chaining/fields-retrieve.md)
             * [事务处理](database/gdb/chaining/transaction.md)
             * [主从切换](database/gdb/chaining/master-slave.md)
             * [查询缓存](database/gdb/chaining/cache.md)
