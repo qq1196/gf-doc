@@ -2,16 +2,20 @@
 
 # 数据写入/保存
 
-## `Insert/Replace/Save`
+## `Insert/InsertIgnore/Replace/Save`
 这三个链式操作方法用于数据的写入，并且支持自动的单条或者批量的数据写入，三者区别如下：
 
 1. `Insert`
 
 	使用`INSERT INTO`语句进行数据库写入，如果写入的数据中存在主键或者唯一索引时，返回失败，否则写入一条新数据；
-3. `Replace`
+1. `InsertIgnore`
+
+	使用`INSERT IGNORE INTO`语句进行数据库写入，如果写入的数据中存在主键或者唯一索引时，忽略错误继续执行写入；
+
+1. `Replace`
 
 	使用`REPLACE INTO`语句进行数据库写入，如果写入的数据中存在主键或者唯一索引时，会删除原有的记录，必定会写入一条新记录；
-5. `Save`
+1. `Save`
 
 	使用`INSERT INTO`语句进行数据库写入，如果写入的数据中存在主键或者唯一索引时，更新原有数据，否则写入一条新数据；
 
@@ -26,6 +30,8 @@
 ```go
 // INSERT INTO `user`(`name`) VALUES('john')
 r, err := db.Table("user").Data(g.Map{"name": "john"}).Insert()
+// INSERT IGNORE INTO `user`(`uid`,`name`) VALUES(10000,'john')
+r, err := db.Table("user").Data(g.Map{"uid": 10000, "name": "john"}).InsertIgnore()
 // REPLACE INTO `user`(`uid`,`name`) VALUES(10000,'john')
 r, err := db.Table("user").Data(g.Map{"uid": 10000, "name": "john"}).Replace()
 // INSERT INTO `user`(`uid`,`name`) VALUES(10001,'john') ON DUPLICATE KEY UPDATE `uid`=VALUES(`uid`),`name`=VALUES(`name`)
