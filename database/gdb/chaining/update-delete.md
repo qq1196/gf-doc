@@ -11,8 +11,8 @@
 使用示例：
 ```go
 // UPDATE `user` SET `name`='john guo' WHERE name='john'
-r, err := db.Table("user").Data(g.Map{"name" : "john guo"}).Where("name=?", "john").Update()
-r, err := db.Table("user").Data("name='john guo'").Where("name=?", "john").Update()
+r, err := db.Table("user").Data(g.Map{"name" : "john guo"}).Where("name", "john").Update()
+r, err := db.Table("user").Data("name='john guo'").Where("name", "john").Update()
 // UPDATE `user` SET `status`=1 ORDER BY `login_time` asc LIMIT 10
 r, err := db.Table("user").Data("status", 1).Order("login_time asc").Limit(10).Update()
 

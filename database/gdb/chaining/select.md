@@ -59,19 +59,23 @@ Table("user").WherePri(g.Slice{1,2,3})
 
 
 
-## `All/One/Value/Count`数据查询
+## `All/One/Array/Value/Count`数据查询
 
 这四个方法是数据查询比较常用的方法：
 1. `All` 用于查询并返回多条记录的列表/数组。
 1. `One` 用于查询并返回单条记录。
+1. `Array` 用于查询指定字段列的数据，返回数组。
 1. `Value` 用于查询并返回一个字段值，往往需要结合`Fields`方法使用。
 1. `Count` 用于查询并返回记录数。
 
-此外，也可以看得到这四个方法定义中也支持条件参数的直接输入，参数类型与`Where`方法一致。但需要注意，其中`Value`方法的参数中至少应该输入字段参数。例如：
+此外，也可以看得到这四个方法定义中也支持条件参数的直接输入，参数类型与`Where`方法一致。但需要注意，其中`Array`和`Value`方法的参数中至少应该输入字段参数。例如：
 ```go
+// SELECT `name` FROM `user` WHERE `score`>60
+Table("user").Array("name", "score>?", 60)
+
 // SELECT `name` FROM `user` WHERE `uid`=1
 Table("user").Value("name", "uid=1")
-Table("user").Value("name", "uid"， 1)
+Table("user").Value("name", "uid", 1)
 // SELECT `name` FROM `user` WHERE `uid` IN(1,2,3)
 Table("user").Value("name", "uid", g.Slice{1,2,3})
 ```
@@ -234,10 +238,12 @@ result, err := db.Table("article").Where(condition).All()
 ```go
 // SELECT * FROM user WHERE uid IN(100,10000,90000)
 r, err := db.Table("user").Where("uid IN(?,?,?)", 100, 10000, 90000).All()
+r, err := db.Table("user").Where("uid", g.Slice{100, 10000, 90000}).All()
 // SELECT * FROM user WHERE gender=1 AND uid IN(100,10000,90000)
 r, err := db.Table("user").Where("gender=? AND uid IN(?)", 1, g.Slice{100, 10000, 90000}).All()
 // SELECT COUNT(*) FROM user WHERE age in(18,50)
 r, err := db.Table("user").Where("age IN(?,?)", 18, 50).Count()
+r, err := db.Table("user").Where("age", g.Slice{18, 50}).Count()
 ```
 使用任意`map`参数类型。
 ```go
@@ -271,15 +277,15 @@ r, err := db.Table("user").Where("birthday like ?", "1990-%").All()
 ## 示例4, `sum`查询
 ```go
 // SELECT SUM(score) FROM user WHERE uid=1
-r, err := db.Table("user").Fields("SUM(score)").Where("uid=?", 1).Value()
+r, err := db.Table("user").Fields("SUM(score)").Where("uid", 1).Value()
 ```
 
 ## 示例5, `count`查询
 ```go
 // SELECT COUNT(1) FROM user WHERE `birthday`='1990-10-01'
-r, err := db.Table("user").Where("birthday=?", "1990-10-01").Count()
+r, err := db.Table("user").Where("birthday", "1990-10-01").Count()
 // SELECT COUNT(uid) FROM user WHERE `birthday`='1990-10-01'
-r, err := db.Table("user").Fields("uid").Where("birthday=?", "1990-10-01").Count()
+r, err := db.Table("user").Fields("uid").Where("birthday", "1990-10-01").Count()
 ```
 
 ## 示例6, `distinct`查询

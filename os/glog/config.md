@@ -47,6 +47,10 @@ logger.Print("test")
 
 日志组件支持配置文件，当使用`g.Log(单例名称)`获取`Logger`单例对象时，将会自动通过默认的配置管理对象获取对应的`Logger`配置。默认情况下会读取`logger.单例名称`配置项，当该配置项不存在时，将会读取`logger`配置项。
 
+其中，`level`配置项支持三个配置：`all`, `dev`, `prod`，分别对应的级别常量是`LEVEL_ALL`, `LEVEL_DEV`, `LEVEL_PROD`。
+
+> `LEVEL_ALL`和`LEVEL_DEV`级别目前是一样的效果。
+
 ## 示例1，默认配置项
 ```toml
 [logger]
@@ -65,7 +69,7 @@ logger.Print("test")
     stdout = false
     [logger.logger1]
         path   = "/var/log/logger1"
-        level  = "debug"
+        level  = "dev"
         stdout = false
     [logger.logger2]
         path   = "/var/log/logger2"

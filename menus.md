@@ -167,6 +167,7 @@
         * [ORM结果处理](database/gdb/result.md)
         * [ORM高级特性](database/gdb/senior.md)
         * [ORM模型生成](database/gdb/generate.md)
+        * [ORM驱动开发](database/gdb/driver.md)
         <!-- * [FAQ常见问题](database/gdb/faq.md) -->
 * [功能模块设计](#)
     * [数据结构容器](#)
