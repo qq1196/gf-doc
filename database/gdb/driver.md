@@ -7,6 +7,8 @@
 
 ## 驱动接口
 
+接口文档：https://godoc.org/github.com/gogf/gf/database/gdb
+
 开发者自定义的驱动需要实现以下接口：
 ```go
 // Driver is the interface for integrating sql drivers into package gdb.
