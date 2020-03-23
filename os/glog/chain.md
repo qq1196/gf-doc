@@ -12,8 +12,12 @@ func Cat(category string) *Logger
 func File(file string) *Logger
 // 设置日志打印级别
 func Level(level int) *Logger
+// 设置日志打印级别(字符串)
+func LevelStr(levelStr string) *Logger
 // 是否开启trace打印
 func Stack(enabled bool) *Logger
+// 开启trace打印并设定过滤trace的字符串
+func StackWithFilter(filter string) *Logger
 // 是否开启终端输出
 func Stdout(enabled...bool) *Logger
 // 是否输出日志头信息

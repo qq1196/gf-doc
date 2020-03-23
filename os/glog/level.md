@@ -92,3 +92,44 @@ func main() {
 ```html
 2018-10-10 14:38:48.687 [INFO] info1
 ```
+
+
+
+# 级别名称
+
+
+在日志中我们会看到不同级别的打印内容，会在内容前面带有不同的日志级别名称。默认的日志级别名称如下：
+```go
+LEVEL_DEBU: "DEBU",
+LEVEL_INFO: "INFO",
+LEVEL_NOTI: "NOTI",
+LEVEL_WARN: "WARN",
+LEVEL_ERRO: "ERRO",
+LEVEL_CRIT: "CRIT",
+LEVEL_PANI: "PANI",
+LEVEL_FATA: "FATA",
+```
+为方便统一日志格式，保证比较优雅的排版风格，因此日志级别的名称都使用了级别英文单词的前四个字符。若有特许需求需要修改日志级别名称的，可以通过一下方法进行设置：
+```go
+func (l *Logger) SetLevelPrefix(level int, prefix string)
+func (l *Logger) SetLevelPrefixes(prefixes map[int]string)
+```
+
+使用示例：
+```go
+package main
+
+import (
+	"github.com/gogf/gf/os/glog"
+)
+
+func main() {
+	l := glog.New()
+	l.SetLevelPrefix(glog.LEVEL_DEBU, "debug")
+	l.Debug("test")
+}
+```
+执行后，终端输出：
+```
+2020-03-24 00:03:33.489 [debug] test
+```

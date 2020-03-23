@@ -117,6 +117,7 @@
         * [链式操作](os/glog/chain.md)
         * [高级特性](#)
             * [异步输出](os/glog/async.md)
+            * [滚动切分](os/glog/rotate.md)
             * [Json格式](os/glog/json.md)
             * [Flags特性](os/glog/flags.md)
             * [Stack特性](os/glog/stack.md)
