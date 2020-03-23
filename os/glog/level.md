@@ -109,7 +109,7 @@ LEVEL_CRIT: "CRIT",
 LEVEL_PANI: "PANI",
 LEVEL_FATA: "FATA",
 ```
-为方便统一日志格式，保证比较优雅的排版风格，因此日志级别的名称都使用了级别英文单词的前四个字符。若有特许需求需要修改日志级别名称的，可以通过一下方法进行设置：
+为方便统一日志格式，保证比较优雅的排版风格，因此日志级别的名称都使用了级别英文单词的前四个字符。若有特殊需求需要修改日志级别名称的，可以通过以下方法进行设置：
 ```go
 func (l *Logger) SetLevelPrefix(level int, prefix string)
 func (l *Logger) SetLevelPrefixes(prefixes map[int]string)
