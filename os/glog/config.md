@@ -45,11 +45,9 @@ logger.Print("test")
 
 # 配置文件
 
-日志组件支持配置文件，当使用`g.Log(单例名称)`获取`Logger`单例对象时，将会自动通过默认的配置管理对象获取对应的`Logger`配置。默认情况下会读取`logger.单例名称`配置项，当该配置项不存在时，将会读取`logger`配置项。
+日志组件支持配置文件，当使用`g.Log(单例名称)`获取`Logger`单例对象时，将会自动通过默认的配置管理对象获取对应的`Logger`配置。默认情况下会读取`logger.单例名称`配置项，当该配置项不存在时，将会读取默认的`logger`配置项。
 
-其中，`level`配置项支持三个配置：`all`, `dev`, `prod`，分别对应的级别常量是`LEVEL_ALL`, `LEVEL_DEV`, `LEVEL_PROD`。
-
-> `LEVEL_ALL`和`LEVEL_DEV`级别目前是一样的效果。
+其中，`level`配置项使用字符串配置，按照日志级别支持以下配置：`DEBU` < `INFO` < `NOTI` < `WARN` < `ERRO` < `CRIT`，也支持`ALL`, `DEV`, `PROD`常见部署模式配置。`level`配置项字符串不区分大小写。关于日志级别的详细介绍请查看【[日志级别](/os/glog/level.md)】章节。
 
 ## 示例1，默认配置项
 ```toml
