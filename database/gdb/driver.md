@@ -5,6 +5,8 @@
 
 默认情况下，`gdb`模块已经提供了一些常用的驱动支持，并允许开发者对接自定义的数据库驱动。
 
+适用场景：新增第三方数据库驱动、对已有驱动进行定制化、实现自定义回调处理等。
+
 ## 驱动接口
 
 接口文档：
@@ -36,6 +38,12 @@ func Register(name string, driver Driver) error
 为简化示例编写，我们这里实现了一个自定义的`MySQL`驱动，该驱动继承于`gdb`模块中已经实现的`DriverMysql`，并按照需要修改覆盖相应的接口方法。由于所有的`SQL`语句执行必定会通过`DoQuery`或者`DoExec`接口，因此我们在自定义的驱动中实现并覆盖这两个接口方法即可。
 
 ```go
+// Copyright 2017 gf Author(https://github.com/gogf/gf). All Rights Reserved.
+//
+// This Source Code Form is subject to the terms of the MIT License.
+// If a copy of the MIT was not distributed with this file,
+// You can obtain one at https://github.com/gogf/gf.
+
 package driver
 
 import (
@@ -47,9 +55,9 @@ import (
 
 // MyDriver is a custom database driver, which is used for testing only.
 // For simplifying the unit testing case purpose, MyDriver struct inherits the mysql driver
-// gdb.DriverMysql and overwrites its function HandleSqlBeforeCommit.
-// So if there's any sql execution, it goes through MyDriver.HandleSqlBeforeCommit firstly and
-// then gdb.DriverMysql.HandleSqlBeforeCommit.
+// gdb.DriverMysql and overwrites its functions DoQuery and DoExec.
+// So if there's any sql execution, it goes through MyDriver.DoQuery/MyDriver.DoExec firstly
+// and then gdb.DriverMysql.DoQuery/gdb.DriverMysql.DoExec.
 // You can call it sql "HOOK" or "HiJack" as your will.
 type MyDriver struct {
 	*gdb.DriverMysql
