@@ -7,7 +7,9 @@
 
 ## 驱动接口
 
-接口文档：https://godoc.org/github.com/gogf/gf/database/gdb
+接口文档：
+1. `Driver`: https://godoc.org/github.com/gogf/gf/database/gdb#Driver
+1. `DB`: https://godoc.org/github.com/gogf/gf/database/gdb#DB
 
 开发者自定义的驱动需要实现以下接口：
 ```go
