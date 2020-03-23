@@ -48,9 +48,6 @@ func main() {
 ```html
 2018-10-10 14:38:48.687 [INFO] info1
 ```
-
-
-
 ## `SetLevelStr`方法
 
 大部分场景下我们可以通过`SetLevelStr`方法来通过字符串设置日志级别，配置文件中的`level`配置项也是通过字符串来配置日志级别。支持的日志级别字符串如下，不区分大小写：
@@ -72,7 +69,7 @@ func main() {
 "CRIT":     LEVEL_CRIT,
 "CRITICAL": LEVEL_CRIT,
 ```
-可以看到，通过级别名称设置的日志级别是按照日志级别的高低来进行过滤的：`DEBU` < `INFO` < `NOTI` < `WARN` < `ERRO` < `CRIT`。
+可以看到，通过级别名称设置的日志级别是按照日志级别的高低来进行过滤的：`DEBU` < `INFO` < `NOTI` < `WARN` < `ERRO` < `CRIT`，也支持`ALL`, `DEV`, `PROD`常见部署模式配置名称。
 
 使用示例：
 
