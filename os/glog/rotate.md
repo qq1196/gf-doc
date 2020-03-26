@@ -77,6 +77,7 @@ access.20200326.log -> access.20200326.20200326101301899002.log
 假如日志路径为`/var/log`，我们可以：
 1. 通过`g.Log().Cat("order").Print(xxx)`输出订单日志。生成的日志文件例如：`/var/log/order/2020-03-26.log`。
 1. 通过`g.Log().Cat("promo").Print(xxx)`输出促销日志。生成的日志文件例如：`/var/log/promo/2020-03-26.log`。
+
 也可以通过：
 1. 通过`g.Log().File("order").Print(xxx)`输出订单日志。生成的日志文件例如：`/var/log/order.log`。
 1. 通过`g.Log().File("order").Print(xxx)`输出促销日志。生成的日志文件例如：`/var/log/promo.log`。
