@@ -11,7 +11,7 @@ import "github.com/gogf/gf/os/glog"
 http://godoc.org/github.com/gogf/gf/os/glog
 
 重要的几点说明：
-1. `glog`模块固定日志文件名称格式固定为`*.log`。
+1. `glog`模块固定日志文件名称格式为`*.log`。
 1. `glog`支持文件输出、日志级别、日志分类、调试管理、调用跟踪、链式操作、滚动切分等等丰富特性。
 1. 可以使用`glog.New`方法创建`glog.Logger`对象用于自定义日志打印，也可以并推荐使用`glog`默认提供的包方法来打印日志。
 1. 当使用包方法修改模块配置时，注意任何的`glog.Set*`设置方法都将会**全局生效**。
