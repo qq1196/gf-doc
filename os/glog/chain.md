@@ -1,6 +1,10 @@
+[TOC]
+
 # 链式操作
 
-`glog`模块支持非常简便的`链式操作`方式，相关链式操作方法如下：
+完整的方法列表可参考接口文档：http://godoc.org/github.com/gogf/gf/os/glog
+
+`glog`模块支持非常简便的`链式操作`方式，主要的链式操作方法如下：
 ```go
 // 重定向日志输出接口
 func To(writer io.Writer) *Logger

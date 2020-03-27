@@ -1,6 +1,8 @@
-# Trace特性
+[TOC]
 
-错误日志信息支持`trace`特性，可以通过`Notice*/Warning*/Error*/Critical*/Panic*/Fatal*`错误方法触发，也可以通过`GetStack/PrintStack`获取/打印。错误信息的`trace`信息对于调试错误来说相当有用。
+# Stack特性
+
+错误日志信息支持`stack`特性，该特性可以自动打印出当前调用日志组件方法的堆栈信息，该堆栈信息可以通过`Notice*/Warning*/Error*/Critical*/Panic*/Fatal*`等错误日志输出方法触发，也可以通过`GetStack/PrintStack`获取/打印。错误信息的`stack`信息对于调试来说相当有用。
 
 ## 示例1，通过错误方法触发
 ```go
@@ -26,7 +28,7 @@ Stack:
    /home/john/Workspace/Go/GOPATH/src/github.com/gogf/gf/geg/os/glog/glog_error.go:10
 ```
 
-## 示例2，通过Stack方法打印
+## 示例2，通过`Stack`方法打印
 
 ```go
 package main
@@ -63,7 +65,7 @@ func main() {
    /home/john/Workspace/Go/GOPATH/src/github.com/gogf/gf/geg/os/glog/glog_stack.go:15
 ```
 
-## 示例3，打印gerror.Error
+## 示例3，打印`gerror.Error`
 
 `glog`日志模块支持对标准错误以及`gerror`错误的堆栈打印支持。
 
