@@ -68,3 +68,48 @@ if j, err := gjson.DecodeToJson(data); err != nil {
 }
 ```
 运行之后打印出的结果为`101`。当键名存在"`.`"号时，我们可以通过`SetViolenceCheck`设置冲突检测，随后检索优先级将会按照：键名->层级，便并不会引起歧义。但是当冲突检测开关开启时，检索效率将会变低，默认为关闭状态。
+
+
+
+# 注意事项
+
+大家都知道，在`Golang`里面，`map/slice`类型其实是一个"引用类型"（也叫"指针类型"），因此当你对这种类型的变量 键值对/索引项 进行修改时，会同时修改到其对应的底层数据。
+
+从效率上考虑，`gjson`包某些获取方法返回的数据类型为`map/slice`时，没有对齐做值拷贝，因此当你对返回的数据进行修改时，会同时修改`gjson`对应的底层数据。
+
+例如：
+```go
+jsonContent := `{"map":{"key":"value"}, "slice":[59,90]}`
+j, _ := gjson.LoadJson(jsonContent)
+m := j.GetMap("map")
+fmt.Println(m)
+
+// Change the key-value pair.
+m["key"] = "john"
+
+// It changes the underlying key-value pair.
+fmt.Println(j.GetMap("map"))
+
+s := j.GetArray("slice")
+fmt.Println(s)
+
+// Change the value of specified index.
+s[0] = 100
+
+// It changes the underlying slice.
+fmt.Println(j.GetArray("slice"))
+
+// output:
+// map[key:value]
+// map[key:john]
+// [59 90]
+// [100 90]
+```
+
+
+
+
+
+
+
+
