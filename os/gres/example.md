@@ -9,6 +9,7 @@
 ## 资源文件
 
 资源文件源码：https://github.com/gogf/gf/tree/master/os/gres/testdata/example/files
+
 资源文件打包：https://github.com/gogf/gf/tree/master/os/gres/testdata/example/boot
 
 资源文件列表：
@@ -70,7 +71,7 @@ func main() {
 	s.Run()
 }
 ```
-可以看到，除了`import`中多了 `_ "github.com/gogf/gf/os/gres/testdata/example/boot"` 的包引入外，没有其他任何设置。
+可以看到，整个代码中除了`import`中额外增加了一个 `_ "github.com/gogf/gf/os/gres/testdata/example/boot"` 的包引入外，没有其他任何设置。这也是`GF`框架的资源管理比较便捷的地方，资源管理并不需要开发阶段对代码做任何特殊设置，在应用程序部署之前打包好资源文件，并通过`import`增加资源文件的引入即可。
 
 运行后，终端输出：
 ```html
