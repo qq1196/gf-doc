@@ -1,0 +1,111 @@
+[TOC]
+
+
+# 使用示例
+
+我们来看一个使用示例，在该示例中，展示了资源管理在WebServer的静态服务、配置管理、模板引擎中的使用。
+
+
+## 资源文件
+
+资源文件源码：https://github.com/gogf/gf/tree/master/os/gres/testdata/example/files
+资源文件打包：https://github.com/gogf/gf/tree/master/os/gres/testdata/example/boot
+
+资源文件列表：
+```
+2020-03-28T13:04:10+00:00   0.00B config
+2020-03-28T13:03:06+00:00 135.00B config/config.toml
+2020-03-28T13:04:10+00:00   0.00B public
+2020-03-28T12:57:54+00:00   6.00B public/index.html
+2020-03-28T13:04:10+00:00   0.00B template
+2020-03-28T13:03:17+00:00  15.00B template/index.tpl
+TOTAL FILES: 6
+```
+
+三个文件的内容分别为：
+1. `config.toml`
+    ```toml
+    [server]
+        Address    = ":8888"
+        ServerRoot = "public"
+
+    [viewer]
+        DefaultFile = "index.tpl"
+        Delimiters  =  ["${", "}"]
+    ```
+    该文件为应用的配置文件。
+1. `index.html`
+    ```html
+    Hello!
+    ```
+    该文件用于静态资源请求。
+1. `index.tpl`
+    ```html
+    Hello ${.name}!
+    ```
+    该文件用于模板文件解析展示。
+
+
+## 创建应用
+
+```go
+package main
+
+import (
+	_ "github.com/gogf/gf/os/gres/testdata/example/boot"
+
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/net/ghttp"
+)
+
+func main() {
+	s := g.Server()
+	s.Group("/", func(group *ghttp.RouterGroup) {
+		group.GET("/template", func(r *ghttp.Request) {
+			r.Response.WriteTplDefault(g.Map{
+				"name": "GoFrame",
+			})
+		})
+	})
+	s.Run()
+}
+```
+可以看到，除了`import`中多了 `_ "github.com/gogf/gf/os/gres/testdata/example/boot"` 的包引入外，没有其他任何设置。
+
+运行后，终端输出：
+```html
+2020-03-28 21:36:19.828 75892: http server started listening on [:8888]
+
+  SERVER  | DOMAIN  | ADDRESS | METHOD |   ROUTE   |      HANDLER      | MIDDLEWARE  
+|---------|---------|---------|--------|-----------|-------------------|------------|
+  default | default | :8888   | GET    | /template | main.main.func1.1 |             
+|---------|---------|---------|--------|-----------|-------------------|------------|
+```
+可以看到，配置文件被自动读取并应用到了`WebServer`上。
+
+我们通过`curl`命令测试一下静态文件以及模板引擎的访问。
+```shell
+$ curl http://127.0.0.1:8888/
+Hello!
+
+$ curl http://127.0.0.1:8888/template
+Hello GoFrame!
+```
+可以看到，`index.html`静态文件以及`index.tpl`模板文件都被成功访问到了。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
