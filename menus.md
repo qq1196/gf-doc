@@ -264,6 +264,7 @@
     * [GoFrame其他案例](cases/other.md)
 * [版本发布记录](#)
     * [版本发布说明](release/index.md)
+    * [v1.12 2020-03-30](release/v1.12.md)
     * [v1.11 2020-01-14](release/v1.11.md)
     * [v1.10 2019-12-05](release/v1.10.md)
     * [v1.9 2019-09-24](release/v1.9.md)
