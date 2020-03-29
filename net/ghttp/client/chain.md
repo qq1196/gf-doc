@@ -28,13 +28,13 @@ func (c *Client) BasicAuth(user, pass string) *Client
 ## 示例1，请求超时控制
 ```go
 g.Client().Timeout(3*time.Second).GetContent("http://user.svc/v1/user/info/1")
-
+```
+```go
 g.Client().Timeout(10*time.Second).PostContent("http://order.svc/v1/order/create", g.Map{
     "uid"         : 1,
     "sku_id"      : 10000,
     "amount"      : 19.99,
     "create_time" : "2020-03-26 12:00:00",
-    ...
 })
 ```
 
@@ -46,7 +46,8 @@ g.Client().Cookie("sessionid", "MNV5432PIY76").GetContent("http://user.svc/v1/us
 ## 示例3，自定义`Header`
 ```go
 g.Client().Header("Trace-Id", "XVF654RT98UJNMN641V06Y").GetContent("http://user.svc/v1/user/info/1")
-
+```
+```go
 g.Client().HeaderRaw(`
 Referer: https://goframe.org/
 User-Agent: MyTesyClient
@@ -60,12 +61,11 @@ g.Client().ContentJson.PostContent("http://order.svc/v1/order/create", g.Map{
     "sku_id"      : 10000,
     "amount"      : 19.99,
     "create_time" : "2020-03-26 12:00:00",
-    ...
 })
 ```
 该请求将会将`Content-Type`设置为`application/json`，并且将提交参数自动编码为`Json`: 
 ```json
-{"uid":1,"sku_id":10000,"amount":19.99,"create_time":"2020-03-26 12:00:00"...}
+{"uid":1,"sku_id":10000,"amount":19.99,"create_time":"2020-03-26 12:00:00"}
 ```
 
 ## 示例5，提交`Xml`请求
@@ -75,7 +75,6 @@ g.Client().ContentXml.PostContent("http://order.svc/v1/order/create", g.Map{
     "sku_id"      : 10000,
     "amount"      : 19.99,
     "create_time" : "2020-03-26 12:00:00",
-    ...
 })
 ```
 该请求将会将`Content-Type`设置为`application/xml`，并且将提交参数自动编码为`Xml`: 
