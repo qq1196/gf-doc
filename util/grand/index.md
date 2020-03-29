@@ -1,6 +1,6 @@
 [TOC]
 
-# grand
+# `grand`随机数模块
 
 `grand`模块实现了对随机数操作的封装和改进，实现了极高的随机数生成性能，提供了丰富的随机数相关操作方法。
 
@@ -26,13 +26,13 @@ func Letters(n int) string
 func Symbols(n int) string
 ```
 
-## 基础随机字符
+## 字符列表
 
 |字符类型|字符列表
 |---|---
 |数字字符  |`0123456789`
 |英文字符  |`abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`
-|特殊字符  | ````!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~````
+|特殊字符  | ```!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~```
 
 
 ## 随机整数
