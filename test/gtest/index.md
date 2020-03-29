@@ -1,6 +1,7 @@
-# gtest
 
-`gtest`提供了常用的单元测试方法。
+# `gtest`单元测试
+
+`gtest`模块提供了常用的单元测试方法。
 
 **使用方式**：
 ```go
@@ -12,7 +13,7 @@ import "github.com/gogf/gf/test/gtest"
 https://godoc.org/github.com/gogf/gf/test/gtest
 
 ```go
-func Case(t *testing.T, f func())
+func C(t *testing.T, f func(t *T))
 func Assert(value, expect interface{})
 func AssertEQ(value, expect interface{})
 func AssertGE(value, expect interface{})
@@ -26,10 +27,11 @@ func Error(message ...interface{})
 func Fatal(message ...interface{})
 ```
 
-简要说明如下：
-1. 断言方法支持任意类型的变量比较；
-1. 使用大小比较断言方法如`AssertGE`时，参数支持字符串及数字比较，其中字符串比较为大小写敏感；
-1. 包含断言方法`AssertIN`及`AssertNI`支持`slice`类型参数，暂不支持`map`类型参数；
+**主要说明**：
+1. 使用`C`方法创建一个`Case`，表示一个单元测试用例。一个单元测试方法可以包含多个`C`，每一个`C`包含的用例往往表示该方法的其中一种可能性测试。
+1. 断言方法`Assert`支持任意类型的变量比较。`AssertEQ`进行断言比较时，会同时比较类型，即严格断言。
+1. 使用大小比较断言方法如`AssertGE`时，参数支持字符串及数字比较，其中字符串比较为大小写敏感。
+1. 包含断言方法`AssertIN`及`AssertNI`支持`slice`类型参数，暂不支持`map`类型参数。
 
 > 用于单元测试的包名既可以使用`包名_test`，也可直接使用`包名`（即与测试包同名）。两种使用方式都比较常见，且在`Go`官方标准库中也均有涉及。但需要注意的是，当需要测试包的私有方法/私有变量时，必须使用`包名`命名形式。且在使用`包名`命名方式时，注意仅用于单元测试的相关方法（非`Test*`测试方法）一般定义为私有，不要公开。
 
@@ -48,9 +50,9 @@ import (
 )
 
 func Test_Trim(t *testing.T) {
-    gtest.Case(t, func() {
-        gtest.Assert(gstr.Trim(" 123456\n "),      "123456")
-        gtest.Assert(gstr.Trim("#123456#;", "#;"), "123456")
+    gtest.C(t, func(t *T) {
+        t.Assert(gstr.Trim(" 123456\n "),      "123456")
+        t.Assert(gstr.Trim("#123456#;", "#;"), "123456")
     })
 }
 ```
@@ -66,13 +68,13 @@ import (
 )
 
 func Test_Trim(t *testing.T) {
-    Case(t, func() {
+    C(t, func() {
         Assert(gstr.Trim(" 123456\n "),      "123456")
         Assert(gstr.Trim("#123456#;", "#;"), "123456")
     })
 }
 ```
-一个单元测试用例可以包含多个`Case`，一个`Case`也可以执行多个断言。
+一个单元测试用例可以包含多个`C`，一个`C`也可以执行多个断言。
 断言成功时直接PASS，但是如果断言失败，会输出如下类似的错误信息，并终止当前单元测试用例的继续执行（不会终止后续的其他单元测试用例）。
 ```html
 === RUN   Test_Trim
