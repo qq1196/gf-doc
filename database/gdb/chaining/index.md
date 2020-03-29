@@ -18,11 +18,13 @@ func (m *Model) Delete(where ...interface{}) (result sql.Result, err error)
 
 func (m *Model) All(where ...interface{} (Result, error)
 func (m *Model) One(where ...interface{}) (Record, error)
+func (m *Model) Array(fieldsAndWhere ...interface{}) ([]Value, error)
 func (m *Model) Value(fieldsAndWhere ...interface{}) (Value, error)
 func (m *Model) Count(where ...interface{}) (int, error)
 
 func (m *Model) FindAll(where ...interface{}) (Result, error)
 func (m *Model) FindOne(where ...interface{}) (Record, error)
+func (m *Model) FindArray(fieldsAndWhere ...interface{}) (Value, error)
 func (m *Model) FindValue(fieldsAndWhere ...interface{}) (Value, error)
 func (m *Model) FindCount(where ...interface{}) (int, error)
 
