@@ -32,7 +32,7 @@ func Symbols(n int) string
 |---|---
 |数字字符  |`0123456789`
 |英文字符  |`abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`
-|特殊字符  | ```!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~```
+|特殊字符  |````!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~````
 
 
 ## 随机整数
