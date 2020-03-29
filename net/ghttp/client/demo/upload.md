@@ -18,9 +18,8 @@ import (
 
 // Upload uploads files to /tmp .
 func Upload(r *ghttp.Request) {
-	saveDirPath := "/tmp/"
 	files := r.GetUploadFiles("upload-file")
-    names, err := files.Save(saveDirPath)
+    names, err := files.Save("/tmp/")
     if err != nil {
 		r.Response.WriteExit(err)
 	}

@@ -1,9 +1,9 @@
 
 # 工具方法
-`ghttp`模块也提供了独立的包函数来实现HTTP请求，用于短连接请求，方法如下：
+`ghttp`模块也提供了独立的包函数来实现HTTP请求，这是一些快捷方法，用于短连接请求，方法如下：
 
 ```go
-func Get(url string) (*ClientResponse, error)
+func Get(url string, data ...interface{}) (*ClientResponse, error)
 func Put(url string, data ...interface{}) (*ClientResponse, error)
 func Post(url string, data ...interface{}) (*ClientResponse, error)
 func Delete(url string, data ...interface{}) (*ClientResponse, error)
@@ -36,6 +36,6 @@ func PatchContent(url string, data ...interface{}) string
 func TraceContent(url string, data ...interface{}) string
 func DoRequestContent(method string, url string, data ...interface{}) string
 ```
-函数说明与`Client`对象的方法说明一致，一般情况下直接使用`ghttp`对应的HTTP包方法来实现HTTP请求即可，非常简便。当需要自定义HTTP请求的一些细节(例如超时时间、Cookie、Header等)时，就得依靠自定义的`Client`对象来处理了。
+函数说明与`Client`对象的方法说明一致，一般情况下直接使用`ghttp`对应的HTTP包方法来实现HTTP请求即可，非常简便。当需要自定义HTTP请求的一些细节(例如超时时间、`Cookie`、`Header`等)时，就得依靠自定义的`Client`对象来处理了。
 
 
