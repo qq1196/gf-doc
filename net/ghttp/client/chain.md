@@ -56,7 +56,7 @@ User-Agent: MyTesyClient
 
 ## 示例4，提交`Json`请求
 ```go
-g.Client().ContentJson.PostContent("http://order.svc/v1/order/create", g.Map{
+g.Client().ContentJson().PostContent("http://order.svc/v1/order/create", g.Map{
     "uid"         : 1,
     "sku_id"      : 10000,
     "amount"      : 19.99,
@@ -70,7 +70,7 @@ g.Client().ContentJson.PostContent("http://order.svc/v1/order/create", g.Map{
 
 ## 示例5，提交`Xml`请求
 ```go
-g.Client().ContentXml.PostContent("http://order.svc/v1/order/create", g.Map{
+g.Client().ContentXml().PostContent("http://order.svc/v1/order/create", g.Map{
     "uid"         : 1,
     "sku_id"      : 10000,
     "amount"      : 19.99,
