@@ -78,7 +78,7 @@ g.Client().ContentXml.PostContent("http://order.svc/v1/order/create", g.Map{
     ...
 })
 ```
-该请求将会将`Content-Type`设置为`application/xml`，并且将提交参数自动编码为`Json`: 
+该请求将会将`Content-Type`设置为`application/xml`，并且将提交参数自动编码为`Xml`: 
 ```xml
 <doc><amount>19.99</amount><create_time>2020-03-26 12:00:00</create_time><sku_id>10000</sku_id><uid>1</uid></doc>
 ```
