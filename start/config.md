@@ -19,6 +19,8 @@ go 1.12
 `GF`框架的核心组件均实现了便捷的文件配置管理方式，包括`Server`、日志组件、数据库ORM、模板引擎等等，非常强大便捷。具体的配置项可以查看后续对应的章节介绍。
 
 https://github.com/gogf/gf-demos/blob/master/config/config.example.toml
+
+> 需要注意哦，仓库中提供的`config.example.toml`为配置文件示例，如果想要正常运行示例程序，你可以将其拷贝或者重命名为`config.toml`。
 ```toml
 # HTTP Server配置
 [server]
