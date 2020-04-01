@@ -23,7 +23,7 @@ func HeadBytes(url string, data ...interface{}) []byte
 func OptionsBytes(url string, data ...interface{}) []byte
 func PatchBytes(url string, data ...interface{}) []byte
 func TraceBytes(url string, data ...interface{}) []byte
-func DoRequestBytes(method string, url string, data ...interface{}) []byte
+func RequestBytes(method string, url string, data ...interface{}) []byte
 
 func GetContent(url string, data ...interface{}) string
 func PutContent(url string, data ...interface{}) string
@@ -34,7 +34,7 @@ func HeadContent(url string, data ...interface{}) string
 func OptionsContent(url string, data ...interface{}) string
 func PatchContent(url string, data ...interface{}) string
 func TraceContent(url string, data ...interface{}) string
-func DoRequestContent(method string, url string, data ...interface{}) string
+func RequestContent(method string, url string, data ...interface{}) string
 ```
 函数说明与`Client`对象的方法说明一致，一般情况下直接使用`ghttp`对应的HTTP包方法来实现HTTP请求即可，非常简便。当需要自定义HTTP请求的一些细节(例如超时时间、`Cookie`、`Header`等)时，就得依靠自定义的`Client`对象来处理了。
 
