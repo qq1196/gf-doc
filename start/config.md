@@ -21,6 +21,7 @@ go 1.12
 https://github.com/gogf/gf-demos/blob/master/config/config.example.toml
 
 > 需要注意哦，仓库中提供的`config.example.toml`为配置文件示例，如果想要正常运行示例程序，你可以将其拷贝或者重命名为`config.toml`。
+
 ```toml
 # HTTP Server配置
 [server]

@@ -15,7 +15,7 @@
         * [逻辑封装](start/service.md)
         * [数据模型](start/model.md)
         * [基础类库](start/library.md)
-    * [服务设置](start/config.md)
+    * [服务配置](start/config.md)
     * [路由注册](start/router.md)
     * [开始运行](start/buildrun.md)
 * [项目部署](#)
