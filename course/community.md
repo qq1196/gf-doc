@@ -28,13 +28,14 @@
 
 教程地址：
 
-- bilibili视频地址：https://www.bilibili.com/video/av94410029
-- 西瓜视频地址： https://www.ixigua.com/pseries/6809291194665796100/
+- bilibili视频地址：https://www.bilibili.com/video/bv157411Z7Le
+- 西瓜视频地址： https://www.ixigua.com/pseries/6809290943603147278/
 
 源码地址：
 
-- gitee地址： https://gitee.com/goflyfox/gostudy
-- github地址： https://github.com/goflyfox/gostudy
+- gitee地址： https://gitee.com/goflyfox/gfstudy
+- github地址： https://github.com/goflyfox/gfstudy
+
 
 
 
