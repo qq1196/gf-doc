@@ -31,7 +31,7 @@ type Client
     func (c *Client) OptionsBytes(url string, data ...interface{}) []byte
     func (c *Client) PatchBytes(url string, data ...interface{}) []byte
     func (c *Client) TraceBytes(url string, data ...interface{}) []byte
-    func (c *Client) DoRequestBytes(method string, url string, data ...interface{}) []byte
+    func (c *Client) RequestBytes(method string, url string, data ...interface{}) []byte
 
     func (c *Client) GetContent(url string, data ...interface{}) string
     func (c *Client) PutContent(url string, data ...interface{}) string
@@ -42,7 +42,7 @@ type Client
     func (c *Client) OptionsContent(url string, data ...interface{}) string
     func (c *Client) PatchContent(url string, data ...interface{}) string
     func (c *Client) TraceContent(url string, data ...interface{}) string
-    func (c *Client) DoRequestContent(method string, url string, data ...interface{}) string
+    func (c *Client) RequestContent(method string, url string, data ...interface{}) string
 
     func (c *Client) SetBasicAuth(user, pass string) *Client
     func (c *Client) SetBrowserMode(enabled bool) *Client
