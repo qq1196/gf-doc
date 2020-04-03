@@ -97,7 +97,7 @@ func (set *Set) Diff(others ...*Set) (newSet *Set)
 func (set *Set) Union(others ...*Set) (newSet *Set)
 func (set *Set) Complement(full *Set) (newSet *Set)
 ```
-1. `Intersect`: 交集，属于set或属于others的元素为元素的集合。
+1. `Intersect`: 交集，属于set且属于others的元素为元素的集合。
 1. `Diff`: 差集，属于set且不属于others的元素为元素的集合。
 1. `Union`: 并集，属于set或属于others的元素为元素的集合。
 1. `Complement`: 补集，(前提: set应当为full的子集)属于全集full不属于集合set的元素组成的集合。如果给定的full集合不是set的全集时，返回full与set的差集.
