@@ -6,7 +6,7 @@ https://godoc.org/github.com/gogf/gf/os/gtime
 
 
 方法比较简单，比较常用的是以下几个方法;
-1. `Second`用于获得当前时间戳，`Millisecond`、`Microsecond`及`Nanosecond`用于获得当前的毫秒、微秒和纳秒值；
+1. `Timestamp`用于获得当前时间戳，`TimestampMilli`、`TimestampMicro`及`TimestampNano`用于获得当前的毫秒、微秒和纳秒值；
 2. `Date`和`Datetime`用于获得当前日期及当前日期时间；
 3. `SetTimeZone`用于设置当前进程的全局时区；
 4. 其他方法说明请查看接口文档；
@@ -24,9 +24,9 @@ func main() {
     fmt.Println("Date       :", gtime.Date())
     fmt.Println("Datetime   :", gtime.Datetime())
     fmt.Println("Second     :", gtime.Timestamp())
-    fmt.Println("Millisecond:", gtime.Millisecond())
-    fmt.Println("Microsecond:", gtime.Microsecond())
-    fmt.Println("Nanosecond :", gtime.Nanosecond())
+    fmt.Println("Millisecond:", gtime.TimestampMilli())
+    fmt.Println("Microsecond:", gtime.TimestampMicro())
+    fmt.Println("Nanosecond :", gtime.TimestampNano())
 }
 ```
 执行后，输出结果为：
