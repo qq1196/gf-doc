@@ -22,20 +22,23 @@ func MiddlewareCORS(r *ghttp.Request) {
 ## 中间件类型
 中间件的类型分为两种：前置中间件和后置中间件。前置即在路由服务函数调用之前调用，后置即在其后调用。
 
-1. 前置中间件。其定义类似于：
-	```go
-	func Middleware(r *ghttp.Request) {
-		// 中间件处理逻辑
-		r.Middleware.Next()
-	}
-	```
-1. 后置中间件。其定义类似于：
-	```go
-	func Middleware(r *ghttp.Request) {
-		r.Middleware.Next()
-		// 中间件处理逻辑
-	}
-	```
+### 前置中间件
+其定义类似于：
+```go
+func Middleware(r *ghttp.Request) {
+	// 中间件处理逻辑
+	r.Middleware.Next()
+}
+```
+### 后置中间件
+其定义类似于：
+
+```go
+func Middleware(r *ghttp.Request) {
+	r.Middleware.Next()
+	// 中间件处理逻辑
+}
+```
 
 ## 中间件注册
 
