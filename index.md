@@ -81,9 +81,9 @@ ab -t 10 -c 100 http://127.0.0.1:3000/json
 <th>P99 Latency</th>
 </tr>
 <tr>
-<td width="30%"><img src="/images/performance/throughputs1.jpeg"></td>
-<td width="30%"><img src="/images/performance/meanlatency1.jpeg"></td>
-<td width="30%"><img src="/images/performance/p99latency1.jpeg"></td>
+<td width="30%"><a href="/images/performance/throughputs1.jpeg"><img src="/images/performance/throughputs1.jpeg"></a></td>
+<td width="30%"><a href="/images/performance/meanlatency1.jpeg"><img src="/images/performance/meanlatency1.jpeg"></a></td>
+<td width="30%"><a href="/images/performance/p99latency1.jpeg"><img src="/images/performance/p99latency1.jpeg"></a></td>
 </tr>
 </table>
 
@@ -95,9 +95,9 @@ ab -t 10 -c 100 http://127.0.0.1:3000/json
 <th>P99 Latency</th>
 </tr>
 <tr>
-<td width="30%"><img src="/images/performance/throughputs3.jpeg"></td>
-<td width="30%"><img src="/images/performance/meanlatency3.jpeg"></td>
-<td width="30%"><img src="/images/performance/p99latency3.jpeg"></td>
+<td width="30%"><a href="/images/performance/throughputs3.jpeg"><img src="/images/performance/throughputs3.jpeg"></a></td>
+<td width="30%"><a href="/images/performance/meanlatency3.jpeg"><img src="/images/performance/meanlatency3.jpeg"></a></td>
+<td width="30%"><a href="/images/performance/p99latency3.jpeg"><img src="/images/performance/p99latency3.jpeg"></a></td>
 </tr>
 </table>
 
