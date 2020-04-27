@@ -17,7 +17,7 @@ https://godoc.org/github.com/gogf/gf/database/gredis
 
 `gredis`使用了连接池来进行`Redis`连接管理，通过`Config`配置对象或者`Set*`方法可以对连接池的属性进行管理，通过`Stats`方法可以获取连接池的统计信息。
 
-我们最常用的方法是`Do`方法，执行同步指令，通过向`Redis Server`发送对应的`Redis API`命令，来使用`Redis Server`的服务。`Do`方法最大的特点是内部自行从连接池中获取连接对象，使用完毕后自动丢回连接池中，开发者无序手动调用`Close`方法，方便使用。
+我们最常用的方法是`Do`方法，执行同步指令，通过向`Redis Server`发送对应的`Redis API`命令，来使用`Redis Server`的服务。`Do`方法最大的特点是内部自行从连接池中获取连接对象，使用完毕后自动丢回连接池中，开发者需手动调用`Close`方法，方便使用。
 
 - Redis中文手册请参考：http://redisdoc.com/ 
 - Redis官方命令请参考：https://redis.io/commands
