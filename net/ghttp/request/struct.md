@@ -103,7 +103,7 @@ func main() {
 $ curl "http://127.0.0.1:8199/register?name=john&password1=123&password2=456"
 {"code":0,"error":"","data":{"Name":"john","Pass":"123","Pass2":"456"}}
 
-$ curl -d "name=john&password1=123&password2=456" -X POST "http://127.0.0.1:8199/"
+$ curl -d "name=john&password1=123&password2=456" -X POST "http://127.0.0.1:8199/register"
 {"code":0,"error":"","data":{"Name":"john","Pass":"123","Pass2":"456"}}
 ```
 我们使用了`GET`和`POST`两种提交方式来做测试，可以看到服务端都能完美地获取到提交参数并完成对象转换。
