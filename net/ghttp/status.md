@@ -28,7 +28,7 @@ func main() {
         r.Response.Writeln("halo 世界！")
     })
     s.BindStatusHandler(404, func(r *ghttp.Request){
-        r.Response.Writeln("This is customized 404 page")
+        r.Response.WriteOver("This is customized 404 page")
     })
     s.SetPort(8199)
     s.Run()
@@ -74,9 +74,9 @@ import (
 func main() {
     s := g.Server()
     s.BindStatusHandlerByMap(map[int]ghttp.HandlerFunc {
-        403 : func(r *ghttp.Request){r.Response.Writeln("403")},
-        404 : func(r *ghttp.Request){r.Response.Writeln("404")},
-        500 : func(r *ghttp.Request){r.Response.Writeln("500")},
+        403 : func(r *ghttp.Request){r.Response.WriteOver("403")},
+        404 : func(r *ghttp.Request){r.Response.WriteOver("404")},
+        500 : func(r *ghttp.Request){r.Response.WriteOver("500")},
     })
     s.SetPort(8199)
     s.Run()
